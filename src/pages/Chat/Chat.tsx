@@ -67,36 +67,26 @@ export default function Chat() {
     }
   }
 
-  async function getInfoFromBackEnd(
-    apiEndpoint: string,
-    params: Record<string, string>
-  ): Promise<string> {
+  async function sendMessageToBackend(userInput: string): Promise<string> {
     try {
-      // Montar a URL com os parâmetros de consulta
-      const url = new URL(apiEndpoint);
-      Object.keys(params).forEach((key) => {
-        url.searchParams.append(key, params[key]);
-      });
-
-      const response = await fetch(url.toString(), {
-        method: "GET",
+      const response = await fetch("http://127.0.0.1:8000/chat", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ user_input: userInput }),
       });
 
       if (!response.ok) {
-        throw new Error(
-          `Erro ao conectar com o backend. Código: ${response.status}`
-        );
+        throw new Error("Erro ao conectar com o backend.");
       }
 
       const data = await response.json();
-      console.log("Resposta do backend:", data.response);
+      console.log("Resposta do Gemini:", data.response);
       return data.response;
     } catch (error) {
-      console.error("Erro:", error);
-      alert("Erro ao consultar o backend.");
+      console.error(error);
+      alert("Erro ao consultar o Gemini API.");
       return "Desculpe, não consegui processar sua solicitação.";
     }
   }
