@@ -15,6 +15,7 @@ import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript";
 import jsx from "react-syntax-highlighter/dist/esm/languages/prism/jsx";
 import { RiRobot3Line } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
+import InstructionSelector from "../../components/InstructionSelector/InstructionSelector";
 
 type Message = {
   text: string;
@@ -25,26 +26,14 @@ export default function Chat() {
   const [data, setData] = useState<string>("");
   const [inputUser, setInputUser] = useState<string>("");
   const instructions = [
-    { key: "create_project", label: "Create Project" },
-    { key: "gather_requirements", label: "Gather Requirements" },
-    { key: "assemble_team", label: "Assemble Team" },
+    { key: 1, label: "Create Project" },
+    { key: 2, label: "Define Requirements" },
+    { key: 3, label: "Assemble Team" },
   ];
-
-  const handleInstructionChange = (instruction: string) => {
-    console.log("Instrução escolhida:", instruction);
-    setSelectedInstruction(instruction);
-    changeInstruction(instruction);
-  };
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
-  const handlePromptClick = (prompt: string) => {
-    setCurrentMessage(prompt);
-  };
-  async function changeInstruction(instructionKey: string): Promise<void> {
+  const [selectedInstruction, setSelectedInstruction] = useState<number | null>(
+    null
+  );
+  const handleInstructionChange = async (instructionKey: number) => {
     try {
       const response = await fetch("http://127.0.0.1:8000/change-instruction", {
         method: "POST",
@@ -58,14 +47,44 @@ export default function Chat() {
         throw new Error("Erro ao alterar a instrução do sistema.");
       }
 
-      const data = await response.json();
-      console.log("Instrução alterada:", data.message);
-      alert("Instrução alterada com sucesso!");
+      console.log("Instrução alterada com sucesso!");
+      setSelectedInstruction(instructionKey); // Salva a instrução selecionada
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao enviar instrução:", error);
       alert("Erro ao alterar a instrução do sistema.");
     }
-  }
+  };
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+  const handlePromptClick = (prompt: string) => {
+    setCurrentMessage(prompt);
+  };
+  // async function changeInstruction(instructionKey: string): Promise<void> {
+  //   try {
+  //     const response = await fetch("http://127.0.0.1:8000/change-instruction", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ instruction_key: instructionKey }),
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error("Erro ao alterar a instrução do sistema.");
+  //     }
+
+  //     const data = await response.json();
+  //     console.log("Instrução alterada:", data.message);
+  //     alert("Instrução alterada com sucesso!");
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("Erro ao alterar a instrução do sistema.");
+  //   }
+  // }
 
   async function sendMessageToBackend(userInput: string): Promise<string> {
     try {
@@ -169,11 +188,23 @@ export default function Chat() {
       setIsWaiting(false);
     }
   };
-  const [selectedInstruction, setSelectedInstruction] = useState<string>("");
   console.log(selectedInstruction);
+  if (selectedInstruction === null) {
+    return (
+      <>
+        <SideBarHeader />
+
+        <InstructionSelector
+          instructions={instructions}
+          onSelect={handleInstructionChange}
+        />
+        <Profile />
+      </>
+    );
+  }
   return (
     <>
-      <SideBarHeader onInstructionChange={handleInstructionChange} />
+      <SideBarHeader />
       <div className="chat-container">
         <div className="chat-title">
           Selected Instruction: {selectedInstruction}

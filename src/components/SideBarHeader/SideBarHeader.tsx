@@ -18,15 +18,13 @@ import { GrHp } from "react-icons/gr";
 import { SiHp } from "react-icons/si";
 import { FaPython } from "react-icons/fa";
 
-interface SideBarHeaderProps {
-  onInstructionChange: (instruction: number) => void;
-}
-export default function SideBarHeader({
-  onInstructionChange,
-}: SideBarHeaderProps) {
-  const changeInstruction = (instructionKey: number) => {
-    onInstructionChange(instructionKey);
-  };
+// interface SideBarHeaderProps {
+//   onInstructionChange: (instruction: number) => void;
+// }
+export default function SideBarHeader() {
+  // const changeInstruction = (instructionKey: number) => {
+  //   onInstructionChange(instructionKey);
+  // };
   // const [isSidebarVisible, setIsSidebarVisible] = useState(true);
   // const [modalOpen, setModalOpen] = useState(false);
 
@@ -74,12 +72,9 @@ export default function SideBarHeader({
           <FaMagnifyingGlass className="sidebarheader-glass" size={19} />
         </div>
 
-        <div className="sidebarheader-quickaccess-container">
+        {/* <div className="sidebarheader-quickaccess-container">
           <div className="sidebarheader-quickacess-title">Quick Access:</div>
-          <div
-            className="sidebarheader-quickacess-new-project-container"
-            onClick={() => changeInstruction(1)}
-          >
+          <div className="sidebarheader-quickacess-new-project-container">
             <AiOutlineFileAdd
               className="sidebarheader-quickacess-new-project-icon"
               size={25}
@@ -90,11 +85,8 @@ export default function SideBarHeader({
             {/* <button onClick={toggleModal}>
               {modalOpen ? "Close Modal" : "Open Modal"}
             </button> */}
-          </div>
-          <div
-            className="sidebarheader-quickacess-new-project-container"
-            onClick={() => changeInstruction(2)}
-          >
+          {/* </div> */}
+          {/* <div className="sidebarheader-quickacess-new-project-container">
             <LuClipboardList
               className="sidebarheader-quickacess-new-project-icon"
               size={25}
@@ -103,10 +95,7 @@ export default function SideBarHeader({
               Define Requirements
             </div>
           </div>
-          <div
-            className="sidebarheader-quickacess-new-project-container"
-            onClick={() => changeInstruction(3)}
-          >
+          <div className="sidebarheader-quickacess-new-project-container">
             <RiTeamLine
               className="sidebarheader-quickacess-new-project-icon"
               size={25}
@@ -115,7 +104,7 @@ export default function SideBarHeader({
               Assemble Team
             </div>
           </div>
-        </div>
+        </div> */} 
         <div className="sidebarheader-projects-title">Projects:</div>
 
         <div className="sidebarheader-projects-container">
