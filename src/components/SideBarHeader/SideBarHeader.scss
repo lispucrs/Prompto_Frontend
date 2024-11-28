@@ -1,0 +1,182 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Nushu&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.sidebarheader-container {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  width: 300px;
+  height: 800px;
+  background: #03256c;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  padding: 15px 20px;
+  transition: transform 0.6s linear;
+  transform: translateX(0);
+  font-family: "Poppins";
+
+  color: #ffffff;
+  &.hidden {
+    transform: translateX(-104%);
+  }
+  .sidebarheader-line-logo-hide {
+    height: 10%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 45px;
+    margin-bottom: 20px;
+    .sidebarheader-logo {
+    }
+    .sidebarheader-hide {
+    }
+  }
+
+  .sidebarheader-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 15px;
+    width: 260px;
+    border: 1px solid rgba(245, 245, 245, 0.212);
+    height: 41px;
+    margin-bottom: 45px;
+
+    .sidebarheader-search {
+      text-align: left;
+      padding-left: 12px;
+      font-family: "Poppins";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      padding: 0 0px 0 12px;
+      width: 220px;
+      color: #03256c;
+      background-color: transparent;
+      border: none;
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active {
+        font-family: "Poppins";
+        font-size: 16px;
+        color: #03256c;
+        -webkit-text-fill-color: #03256c;
+        -webkit-box-shadow: 0 0 0px 1000px white inset;
+        box-shadow: 0 0 0px 1000px white inset;
+      }
+    }
+    .sidebarheader-glass {
+      position: absolute;
+      color: #03256c;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  .sidebarheader-quickaccess-container {
+    display: flex;
+    flex-direction: column;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #ffffff;
+    margin-bottom: 45px;
+    gap: 15px;
+
+    .sidebarheader-quickacess-title {
+      font-size: 20px;
+    }
+    .sidebarheader-quickacess-new-project-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: color 0.3s ease-out;
+
+      font-family: "Montserrat";
+      font-style: normal;
+      font-weight: 300;
+      font-size: 20px;
+
+      color: #ffffff;
+
+      &:hover {
+        color: #6fc9f9;
+      }
+      .sidebarheader-quickacess-new-project-icon {
+        cursor: pointer;
+      }
+      .sidebarheader-quickacess-new-project-text {
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+  }
+  .sidebarheader-projects-title {
+    font-size: 20px;
+    padding-bottom: 15px;
+  }
+  .sidebarheader-projects-container {
+    display: flex;
+    flex-direction: column;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #ffffff;
+    max-height: 200px;
+    overflow-y: auto;
+    gap: 15px;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #ffffff;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #dddddd;
+    }
+
+    .sidebarheader-projects-new-project-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: color 0.3s ease-out;
+      font-family: "Montserrat";
+      font-style: normal;
+      font-weight: 300;
+      font-size: 20px;
+      &:hover {
+        color: #90d8ff;
+      }
+      .sidebarheader-projects-new-project-icon {
+        cursor: pointer;
+      }
+      .sidebarheader-projects-new-project-text {
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+  }
+  .sidebarheader-logo-container {
+    position: absolute;
+    top: 710px;
+    left: 60px;
+  }
+}

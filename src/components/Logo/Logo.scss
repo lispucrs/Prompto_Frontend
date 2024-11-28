@@ -1,0 +1,14 @@
+.logos-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  .hp-logo {
+    width: 50px;
+    height: 50px;
+  }
+  .pucrs-logo {
+    width: 100px;
+  }
+}

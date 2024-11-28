@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Nushu&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.login-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  color: white;
+  .login-left-side {
+    height: 100%;
+    background: linear-gradient(1.54deg, #03256c 61.78%, #1768ac 93.45%);
+    width: 35%;
+    .login-logos-container {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      .login-hp-logo {
+        width: 115px;
+        height: 115px;
+      }
+      .login-pucrs-logo {
+        width: 180px;
+      }
+    }
+  }
+
+  .login-right-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 65%;
+
+    font-family: "Poppins";
+
+    color: #03256c;
+
+    .login-right-title-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      .login-right-title-first {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 40px;
+      }
+      .login-right-title-second {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 120px;
+        margin-top: -20px;
+      }
+    }
+    .login-right-email-password-container {
+      display: flex;
+      flex-direction: column;
+      width: 60%;
+      height: 200px;
+      font-family: "Poppins";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 20px;
+      margin-bottom: 100px;
+
+      .login-right-email-password-container-individual {
+        display: flex;
+        flex-direction: column;
+
+        .login-right-email-password-title {
+          font-family: "Poppins";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 25px;
+        }
+        .login-right-email-password-field {
+          width: 100%;
+          padding: 12px 45px 12px 12px;
+          font-size: 16px;
+          color: #03256c;
+          border: 1px solid rgba(3, 37, 108, 0.5);
+          border-radius: 30px;
+          margin-top: 8px;
+          margin-bottom: 30px;
+          background-color: white;
+          font-family: "Poppins";
+          font-style: normal;
+          font-weight: 400;
+          &:-webkit-autofill,
+          &:-webkit-autofill:hover,
+          &:-webkit-autofill:focus,
+          &:-webkit-autofill:active {
+            font-family: "Poppins";
+            font-size: 16px;
+            color: #03256c;
+            -webkit-text-fill-color: #03256c;
+            -webkit-box-shadow: 0 0 0px 1000px white inset;
+            box-shadow: 0 0 0px 1000px white inset;
+          }
+          &::placeholder {
+            color: #c0c0c0;
+            opacity: 1;
+            font-family: "Poppins";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+          }
+        }
+        .password-input-container {
+          position: relative;
+          display: flex;
+          align-items: center;
+
+          .icon-button-no-focus {
+            color: #03256c;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-104%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}
