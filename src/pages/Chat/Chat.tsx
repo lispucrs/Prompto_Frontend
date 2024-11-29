@@ -30,6 +30,10 @@ export default function Chat() {
     { key: 2, label: "Define Requirements" },
     { key: 3, label: "Assemble Team" },
   ];
+  const [isModalOpen, setModalOpen] = useState(true);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   const [selectedInstruction, setSelectedInstruction] = useState<number | null>(
     null
   );
@@ -192,12 +196,27 @@ export default function Chat() {
   if (selectedInstruction === null) {
     return (
       <>
+        {isModalOpen && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h2>Welcome to the Chat Page</h2>
+              <p>
+                Here you can interact with the assistant, explore ready prompts,
+                and much more. Feel free to start by selecting a prompt or
+                typing your question.
+              </p>
+              <button className="close-modal-button" onClick={closeModal}>
+                Get Started
+              </button>
+              <InstructionSelector
+                instructions={instructions}
+                onSelect={handleInstructionChange}
+              />
+            </div>
+          </div>
+        )}
         <SideBarHeader />
 
-        <InstructionSelector
-          instructions={instructions}
-          onSelect={handleInstructionChange}
-        />
         <Profile />
       </>
     );

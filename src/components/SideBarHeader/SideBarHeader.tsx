@@ -39,6 +39,11 @@ export default function SideBarHeader() {
   // const toggleSidebar = () => {
   //   setIsSidebarVisible(!isSidebarVisible);
   // };
+  const [expandedProject, setExpandedProject] = useState(null);
+
+  const toggleProject = (project) => {
+    setExpandedProject((prev) => (prev === project ? null : project));
+  };
   return (
     <>
       <div className="sidebarheader-container">
@@ -85,8 +90,8 @@ export default function SideBarHeader() {
             {/* <button onClick={toggleModal}>
               {modalOpen ? "Close Modal" : "Open Modal"}
             </button> */}
-          {/* </div> */}
-          {/* <div className="sidebarheader-quickacess-new-project-container">
+        {/* </div> */}
+        {/* <div className="sidebarheader-quickacess-new-project-container">
             <LuClipboardList
               className="sidebarheader-quickacess-new-project-icon"
               size={25}
@@ -104,7 +109,7 @@ export default function SideBarHeader() {
               Assemble Team
             </div>
           </div>
-        </div> */} 
+        </div> */}
         <div className="sidebarheader-projects-title">Projects:</div>
 
         <div className="sidebarheader-projects-container">
@@ -112,53 +117,82 @@ export default function SideBarHeader() {
             <FaRobot
               className="sidebarheader-projects-new-project-icon"
               size={25}
+              onClick={() => toggleProject("Delfos")}
             />
-            <div className="sidebarheader-projects-new-project-text">
+            <div
+              className="sidebarheader-projects-new-project-text"
+              onClick={() => toggleProject("Delfos")}
+            >
               Delfos
             </div>
-            {/* <button onClick={toggleModal}>
-              {modalOpen ? "Close Modal" : "Open Modal"}
-            </button> */}
           </div>
+          {expandedProject === "Delfos" && (
+            <div className="project-options">
+              <div className="project-option">Assemble Team</div>
+              <div className="project-option">Define Requirements</div>
+            </div>
+          )}
           <div className="sidebarheader-projects-new-project-container">
             <IoHardwareChipOutline
               className="sidebarheader-projects-new-project-icon"
               size={25}
+              onClick={() => toggleProject("Nautilus")}
             />
-            <div className="sidebarheader-projects-new-project-text">
+            <div
+              className="sidebarheader-projects-new-project-text"
+              onClick={() => toggleProject("Nautilus")}
+            >
               Nautilus
             </div>
           </div>
+          {expandedProject === "Nautilus" && (
+            <div className="project-options">
+              <div className="project-option">Assemble Team</div>
+              <div className="project-option">Define Requirements</div>
+            </div>
+          )}
+
+          {/* Impettus Project */}
           <div className="sidebarheader-projects-new-project-container">
             <FaCloud
               className="sidebarheader-projects-new-project-icon"
               size={25}
+              onClick={() => toggleProject("Impettus")}
             />
-            <div className="sidebarheader-projects-new-project-text">
+            <div
+              className="sidebarheader-projects-new-project-text"
+              onClick={() => toggleProject("Impettus")}
+            >
               Impettus
             </div>
           </div>
+          {expandedProject === "Impettus" && (
+            <div className="project-options">
+              <div className="project-option">Assemble Team</div>
+              <div className="project-option">Define Requirements</div>
+            </div>
+          )}
+
+          {/* Lottus Project */}
           <div className="sidebarheader-projects-new-project-container">
             <GrHp
               className="sidebarheader-projects-new-project-icon"
               size={25}
+              onClick={() => toggleProject("Lottus")}
             />
-            <div className="sidebarheader-projects-new-project-text">
+            <div
+              className="sidebarheader-projects-new-project-text"
+              onClick={() => toggleProject("Lottus")}
+            >
               Lottus
             </div>
           </div>
-          {/* <div className="sidebarheader-projects-new-project-container">
-            <FaPython
-              className="sidebarheader-projects-new-project-icon"
-              size={25}
-            />
-            <div className="sidebarheader-projects-new-project-text">
-              FinSmart
+          {expandedProject === "Lottus" && (
+            <div className="project-options">
+              <div className="project-option">Assemble Team</div>
+              <div className="project-option">Define Requirements</div>
             </div>
-          </div> */}
-        </div>
-        <div className="sidebarheader-logo-container">
-          <Logo></Logo>
+          )}
         </div>
       </div>
     </>

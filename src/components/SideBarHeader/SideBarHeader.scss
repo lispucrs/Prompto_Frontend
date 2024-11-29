@@ -134,6 +134,24 @@
     max-height: 200px;
     overflow-y: auto;
     gap: 15px;
+    .project-options {
+      padding-left: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .project-option {
+      padding: 0.5rem 1rem;
+      background-color: transparent;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .project-option:hover {
+      background-color: #e0e0e076;
+    }
 
     &::-webkit-scrollbar {
       width: 8px;
