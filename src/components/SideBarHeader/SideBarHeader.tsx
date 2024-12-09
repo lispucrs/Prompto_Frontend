@@ -21,6 +21,20 @@ import { FaPython } from "react-icons/fa";
 // interface SideBarHeaderProps {
 //   onInstructionChange: (instruction: number) => void;
 // }
+interface Etapa {
+  idEtapa: number;
+  nomeEtapa: string;
+  informacao: string;
+}
+
+interface Project {
+  id: number;
+  nome: string;
+  idEtapaParada: number;
+  etapas: { [key: number]: Etapa };
+  caminho: string;
+  icone: React.ElementType;
+}
 export default function SideBarHeader() {
   // const changeInstruction = (instructionKey: number) => {
   //   onInstructionChange(instructionKey);
@@ -39,10 +53,88 @@ export default function SideBarHeader() {
   // const toggleSidebar = () => {
   //   setIsSidebarVisible(!isSidebarVisible);
   // };
-  const [expandedProject, setExpandedProject] = useState(null);
+  const [expandedProject, setExpandedProject] = useState<string | null>(null);
+  const projects: Project[] = [
+    {
+      id: 1,
+      nome: "Delfos",
+      idEtapaParada: 2,
+      etapas: {
+        1: {
+          idEtapa: 1,
+          nomeEtapa: "Create Project",
+          informacao: "Início do projeto",
+        },
+        2: {
+          idEtapa: 2,
+          nomeEtapa: "Assemble Team",
+          informacao: "Planejamento concluído",
+        },
+      },
+      caminho: "/caminho/delfos",
+      icone: FaRobot,
+    },
+    {
+      id: 2,
+      nome: "Nautilus",
+      idEtapaParada: 1,
+      etapas: {
+        1: {
+          idEtapa: 1,
+          nomeEtapa: "Create Project",
+          informacao: "Análise de viabilidade",
+        },
+      },
+      caminho: "/caminho/nautilus",
+      icone: IoHardwareChipOutline,
+    },
+    {
+      id: 3,
+      nome: "Impettus",
+      idEtapaParada: 3,
+      etapas: {
+        1: {
+          idEtapa: 1,
+          nomeEtapa: "Create Project",
+          informacao: "Proposta inicial",
+        },
+        2: {
+          idEtapa: 2,
+          nomeEtapa: "Assemble Team",
+          informacao: "Planejamento estratégico",
+        },
+        3: {
+          idEtapa: 3,
+          nomeEtapa: "Define Requirements",
+          informacao: "Execução fase 1",
+        },
+      },
+      caminho: "/caminho/impettus",
+      icone: FaCloud,
+    },
+    {
+      id: 4,
+      nome: "Lottus",
+      idEtapaParada: 2,
+      etapas: {
+        1: {
+          idEtapa: 1,
+          nomeEtapa: "Create Project",
+          informacao: "Kick-off",
+        },
+        2: {
+          idEtapa: 2,
+          nomeEtapa: "Assemble Team",
+          informacao: "Definição de escopo",
+        },
+      },
+      caminho: "/caminho/lottus",
+      icone: GrHp,
+    },
+  ];
 
-  const toggleProject = (project) => {
-    setExpandedProject((prev) => (prev === project ? null : project));
+  const toggleProject = (projectName: string) => {
+    setExpandedProject((prev) => (prev === projectName ? null : projectName));
   };
   return (
     <>
@@ -113,86 +205,37 @@ export default function SideBarHeader() {
         <div className="sidebarheader-projects-title">Projects:</div>
 
         <div className="sidebarheader-projects-container">
-          <div className="sidebarheader-projects-new-project-container">
-            <FaRobot
-              className="sidebarheader-projects-new-project-icon"
-              size={25}
-              onClick={() => toggleProject("Delfos")}
-            />
-            <div
-              className="sidebarheader-projects-new-project-text"
-              onClick={() => toggleProject("Delfos")}
-            >
-              Delfos
-            </div>
-          </div>
-          {expandedProject === "Delfos" && (
-            <div className="project-options">
-              <div className="project-option">Assemble Team</div>
-              <div className="project-option">Define Requirements</div>
-            </div>
-          )}
-          <div className="sidebarheader-projects-new-project-container">
-            <IoHardwareChipOutline
-              className="sidebarheader-projects-new-project-icon"
-              size={25}
-              onClick={() => toggleProject("Nautilus")}
-            />
-            <div
-              className="sidebarheader-projects-new-project-text"
-              onClick={() => toggleProject("Nautilus")}
-            >
-              Nautilus
-            </div>
-          </div>
-          {expandedProject === "Nautilus" && (
-            <div className="project-options">
-              <div className="project-option">Assemble Team</div>
-              <div className="project-option">Define Requirements</div>
-            </div>
-          )}
+          {projects.map((project) => (
+            <div key={project.id}>
+              <div
+                className="sidebarheader-projects-new-project-container"
+                onClick={() => toggleProject(project.nome)}
+              >
+                <project.icone
+                  className="sidebarheader-projects-new-project-icon"
+                  size={25}
+                />
+                <div className="sidebarheader-projects-new-project-text">
+                  {project.nome}
+                </div>
+              </div>
 
-          {/* Impettus Project */}
-          <div className="sidebarheader-projects-new-project-container">
-            <FaCloud
-              className="sidebarheader-projects-new-project-icon"
-              size={25}
-              onClick={() => toggleProject("Impettus")}
-            />
-            <div
-              className="sidebarheader-projects-new-project-text"
-              onClick={() => toggleProject("Impettus")}
-            >
-              Impettus
+              <div
+                className={`sidebar-project-options ${
+                  expandedProject === project.nome ? "expanded" : ""
+                }`}
+              >
+                {Object.values(project.etapas).map((etapa) => (
+                  <div key={etapa.idEtapa} className="sidebar-project-option">
+                    {etapa.nomeEtapa}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-          {expandedProject === "Impettus" && (
-            <div className="project-options">
-              <div className="project-option">Assemble Team</div>
-              <div className="project-option">Define Requirements</div>
-            </div>
-          )}
-
-          {/* Lottus Project */}
-          <div className="sidebarheader-projects-new-project-container">
-            <GrHp
-              className="sidebarheader-projects-new-project-icon"
-              size={25}
-              onClick={() => toggleProject("Lottus")}
-            />
-            <div
-              className="sidebarheader-projects-new-project-text"
-              onClick={() => toggleProject("Lottus")}
-            >
-              Lottus
-            </div>
-          </div>
-          {expandedProject === "Lottus" && (
-            <div className="project-options">
-              <div className="project-option">Assemble Team</div>
-              <div className="project-option">Define Requirements</div>
-            </div>
-          )}
+          ))}
+        </div>
+        <div className="logosidebar">
+          <Logo />
         </div>
       </div>
     </>

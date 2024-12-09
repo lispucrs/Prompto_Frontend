@@ -29,6 +29,8 @@ export default function Chat() {
     { key: 1, label: "Create Project" },
     { key: 2, label: "Define Requirements" },
     { key: 3, label: "Assemble Team" },
+    { key: 4, label: "Generate RoadMap" },
+    { key: 5, label: "User Stories" },
   ];
   const [isModalOpen, setModalOpen] = useState(true);
   const closeModal = () => {
@@ -205,9 +207,9 @@ export default function Chat() {
                 and much more. Feel free to start by selecting a prompt or
                 typing your question.
               </p>
-              <button className="close-modal-button" onClick={closeModal}>
+              {/* <button className="close-modal-button" onClick={closeModal}>
                 Get Started
-              </button>
+              </button> */}
               <InstructionSelector
                 instructions={instructions}
                 onSelect={handleInstructionChange}
