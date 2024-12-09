@@ -17,6 +17,8 @@ import { GrHp } from "react-icons/gr";
 // interface SideBarHeaderProps {
 //   onInstructionChange: (instruction: number) => void;
 // }
+import { useLocation } from "react-router-dom";
+
 interface Step {
   idStep: number;
   nameStep: string;
@@ -39,8 +41,14 @@ interface User {
 }
 
 export default function SideBarHeader() {
+  const location = useLocation();
+  const { selectedProject: initialSelectedProject } = location.state || {};
+
   const [expandedProject, setExpandedProject] = useState<string | null>(null);
-  const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<string | null>(
+    initialSelectedProject || null
+  );
+
   const projects: Project[] = [
     {
       id: 1,
@@ -64,12 +72,17 @@ export default function SideBarHeader() {
     {
       id: 2,
       name: "Nautilus",
-      idStopedStep: 1,
+      idStopedStep: 2,
       steps: {
         1: {
           idStep: 1,
           nameStep: "Create Project",
-          info: "Análise de viabilidade",
+          info: "Início do projeto",
+        },
+        2: {
+          idStep: 2,
+          nameStep: "Assemble Team",
+          info: "Planejamento concluído",
         },
       },
       wayPoint: "/wayPoint/nautilus",
@@ -146,7 +159,6 @@ export default function SideBarHeader() {
         <div className="sidebarheader-projects-container">
           {projects.map((project) => (
             <div key={project.id}>
-              {/* Nome do Projeto */}
               <div
                 className={`sidebarheader-projects-new-project-container ${
                   selectedProject === project.name ? "selected" : ""
@@ -162,7 +174,6 @@ export default function SideBarHeader() {
                 </div>
               </div>
 
-              {/* Etapas do Projeto */}
               <div
                 className={`sidebar-project-options ${
                   expandedProject === project.name ? "expanded" : ""

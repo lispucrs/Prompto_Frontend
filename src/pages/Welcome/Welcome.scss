@@ -1,11 +1,11 @@
 .welcome-container {
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 85vh;
   align-items: center;
   font-family: "Poppins";
   font-style: normal;
-
+  flex-direction: column;
   color: #03256c;
   .welcome-text-container {
     width: 100%;
@@ -13,7 +13,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    height: 100vh;
     .welcome-first {
       font-weight: 400;
       font-size: 35px;
@@ -23,22 +22,113 @@
       font-size: 70px;
     }
     .welcome-third {
-      font-weight: 700;
+      font-weight: 600;
       font-size: 35px;
+      margin-bottom: 20px;
     }
   }
   .welcome-create-continue-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 70%;
+    width: 100%;
+    .welcome-new-project-container,
+    .welcome-continue-container {
+      font-family: "Poppins";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 35px;
+
+      color: #03256c;
+
+      display: flex;
+      justify-content: center;
+    }
     .welcome-new-project-container {
       .welcome-new-project-text {
+        margin-top: 10px;
+        padding: 10px 30px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        border-radius: 10px;
+        background-color: #03256c;
+        color: white;
+
+        font-family: "Poppins";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 35px;
+
+        &:hover {
+          background-color: rgb(65, 94, 208);
+        }
       }
     }
+    .welcome-or {
+      padding-top: 10px;
+      font-family: "Poppins";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 35px;
+    }
     .welcome-continue-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+
       .welcome-continue-title {
+        font-family: "Poppins";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 35px;
       }
       .welcome-continue-projects-container {
-        .welcome-continue-project-icon {
-        }
-        .welcome-continue-project-text {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        padding-top: 20px;
+        gap: 45px;
+        align-items: start;
+        //justify-content: center;
+        //justify-content: center;
+        .welcome-continue-project-container {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 20px;
+          transition: 0.3s ease;
+          border-radius: 5px;
+          background: #ffffff;
+          border: 1px solid #03256c;
+          border-radius: 10px;
+          min-width: 350px;
+
+          cursor: pointer;
+          &:hover {
+            background-color: #03246c48;
+          }
+
+          .welcome-continue-project-name-icon-container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            .welcome-continue-project-icon {
+              align-self: center;
+            }
+            .welcome-continue-project-text {
+              font-family: "Montserrat";
+              font-style: normal;
+              font-weight: 500;
+              font-size: 35px;
+            }
+          }
+          .welcome-continue-project-arrow {
+            justify-self: end;
+          }
         }
       }
     }

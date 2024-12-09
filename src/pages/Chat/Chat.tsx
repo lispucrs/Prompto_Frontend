@@ -16,6 +16,7 @@ import jsx from "react-syntax-highlighter/dist/esm/languages/prism/jsx";
 import { RiRobot3Line } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 import InstructionSelector from "../../components/InstructionSelector/InstructionSelector";
+import { useLocation } from "react-router-dom";
 
 type Message = {
   text: string;
@@ -36,6 +37,8 @@ export default function Chat() {
   const closeModal = () => {
     setModalOpen(false);
   };
+  const location = useLocation();
+  const { selectedProject } = location.state || {}; // Recupera o projeto selecionado
   const [selectedInstruction, setSelectedInstruction] = useState<number | null>(
     null
   );
@@ -228,7 +231,7 @@ export default function Chat() {
       <SideBarHeader />
       <div className="chat-container">
         <div className="chat-title">
-          Selected Instruction: {selectedInstruction}
+          {selectedInstruction} - Project: {selectedProject || "None"}
         </div>
 
         {!haveText && (

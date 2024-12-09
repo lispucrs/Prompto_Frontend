@@ -157,16 +157,20 @@
     }
     .sidebar-project-options-continue-project {
       font-weight: bold;
-      color: #50affc; 
-      transition: color 0.3s ease;
+      color: #ffffff;
+      transition: 0.3s ease;
       font-size: 15px;
-
+      border-radius: 8px;
+      width: 70%;
+      padding: 0 12px;
       cursor: pointer;
       padding-bottom: 5px;
       padding-top: 5px;
+      background-color: #0057b3ca;
 
       &:hover {
-        color: #91c5fd; 
+        //color: #ffffff;
+        background-color: #3b67b8;
       }
     }
     .sidebar-project-option {
@@ -179,18 +183,18 @@
         color: #6fc9f9;
       }
       &.disabled {
-        color: #b5b5b5; 
+        color: #b5b5b5;
         cursor: not-allowed;
         pointer-events: none;
       }
 
       &.continue {
         font-weight: bold;
-        color: #007bff; 
+        color: #007bff;
         transition: color 0.3s ease;
 
         &:hover {
-          color: #0056b3; 
+          color: #0056b3;
         }
       }
     }
@@ -242,7 +246,6 @@
     }
     .sidebarheader-projects-new-project-container.selected {
       color: #6fc9f9;
-      text-decoration: underline;
     }
   }
   .sidebarheader-logo-container {

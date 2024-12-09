@@ -1,6 +1,18 @@
 import "./Welcome.scss";
 import Profile from "../../components/Profile/Profile";
+import { GrHp } from "react-icons/gr";
+import { FaRobot } from "react-icons/fa";
+import { IoHardwareChipOutline } from "react-icons/io5";
+import { FaCloud } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { IoArrowForward } from "react-icons/io5";
+
 export default function Welcome() {
+  const navigate = useNavigate();
+
+  const handleProjectSelect = (projectName: string) => {
+    navigate("/chat", { state: { selectedProject: projectName } });
+  };
   return (
     <div className="welcome-container">
       <div className="welcome-text-container">
@@ -10,50 +22,45 @@ export default function Welcome() {
       </div>
       <div className="welcome-create-continue-container">
         <div className="welcome-new-project-container">
-          <div className="welcome-new-project-text"></div>
+          <div className="welcome-new-project-text">Create New Project</div>
         </div>
+        <div className="welcome-or">or</div>
         <div className="welcome-continue-container">
-          <div className="welcome-continue-title"></div>
+          <div className="welcome-continue-title">Continue a project</div>
           <div className="welcome-continue-projects-container">
-            <div className="welcome-continue-project-icon"></div>
-            <div className="welcome-continue-project-text"></div>
+            <div
+              className="welcome-continue-project-container"
+              onClick={() => handleProjectSelect("Delfos")}
+            >
+              <div className="welcome-continue-project-name-icon-container">
+                <FaRobot className="welcome-continue-project-icon" />
+                <div className="welcome-continue-project-text">Delfos</div>
+              </div>
+              <IoArrowForward />
+            </div>
+            <div
+              className="welcome-continue-project-container"
+              onClick={() => handleProjectSelect("Nautilus")}
+            >
+              <div className="welcome-continue-project-name-icon-container">
+                <IoHardwareChipOutline className="welcome-continue-project-icon" />
+                <div className="welcome-continue-project-text">Nautilus</div>
+              </div>
+              <IoArrowForward />
+            </div>
+            <div
+              className="welcome-continue-project-container"
+              onClick={() => handleProjectSelect("Impettus")}
+            >
+              <div className="welcome-continue-project-name-icon-container">
+                <FaCloud className="welcome-continue-project-icon" />
+                <div className="welcome-continue-project-text">Impettus</div>
+              </div>
+              <IoArrowForward />
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-// .welcome-container{
-//   .welcome-text-container{
-//       .welcome-first{
-
-//       }
-//       .welcome-second{
-
-//       }
-//       .welcome-third{
-
-//       }
-//   }
-//   .welcome-create-continue-container{
-//       .welcome-new-project-container{
-//           .welcome-new-project-text{
-
-//           }
-//       }
-//       .welcome-continue-container{
-//           .welcome-continue-title{
-
-//           }
-//           .welcome-continue-projects-container{
-//               .welcome-continue-project-icon{
-
-//               }
-//               .welcome-continue-project-text{
-
-//               }
-//           }
-//       }
-//   }
-// }
