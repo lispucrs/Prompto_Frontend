@@ -75,7 +75,7 @@ export default function Login() {
               </div>
             </div>
           </div>
-          <Link to="/chat">
+          <Link to="/welcome">
             <Button type="tertiary" size="small">
               Enter
             </Button>

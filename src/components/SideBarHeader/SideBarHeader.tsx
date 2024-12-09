@@ -1,161 +1,134 @@
 //import { IconButton, InputAdornment, TextField } from "@mui/material";
 import "./SideBarHeader.scss";
-import {
-  HiOutlineChevronDoubleLeft,
-  HiOutlineChevronDoubleRight,
-} from "react-icons/hi2";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { AiOutlineFileAdd } from "react-icons/ai";
+// import { AiOutlineFileAdd } from "react-icons/ai";
 import { useState } from "react";
-import Modal from "../Modal/Modal";
-import { LuClipboardList } from "react-icons/lu";
-import { RiTeamLine } from "react-icons/ri";
+// import Modal from "../Modal/Modal";
+// import { LuClipboardList } from "react-icons/lu";
+// import { RiTeamLine } from "react-icons/ri";
 import Logo from "../Logo/Logo";
 import { FaRobot } from "react-icons/fa";
 import { IoHardwareChipOutline } from "react-icons/io5";
 import { FaCloud } from "react-icons/fa";
 import { GrHp } from "react-icons/gr";
-import { SiHp } from "react-icons/si";
-import { FaPython } from "react-icons/fa";
+// import { SiHp } from "react-icons/si";
+// import { FaPython } from "react-icons/fa";
 
 // interface SideBarHeaderProps {
 //   onInstructionChange: (instruction: number) => void;
 // }
-interface Etapa {
-  idEtapa: number;
-  nomeEtapa: string;
-  informacao: string;
+interface Step {
+  idStep: number;
+  nameStep: string;
+  info: string;
 }
 
 interface Project {
   id: number;
-  nome: string;
-  idEtapaParada: number;
-  etapas: { [key: number]: Etapa };
-  caminho: string;
+  name: string;
+  idStopedStep: number;
+  steps: { [key: number]: Step };
+  wayPoint: string;
   icone: React.ElementType;
 }
+
+interface User {
+  id: number;
+  name: string;
+  projects: { [key: number]: Project };
+}
+
 export default function SideBarHeader() {
-  // const changeInstruction = (instructionKey: number) => {
-  //   onInstructionChange(instructionKey);
-  // };
-  // const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-  // const [modalOpen, setModalOpen] = useState(false);
-
-  // const toggleModal = () => {
-  //   setModalOpen((prev) => {
-  //     const newState = !prev;
-  //     if (onModalStateChange) onModalStateChange(newState);
-  //     return newState;
-  //   });
-  // };
-
-  // const toggleSidebar = () => {
-  //   setIsSidebarVisible(!isSidebarVisible);
-  // };
   const [expandedProject, setExpandedProject] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const projects: Project[] = [
     {
       id: 1,
-      nome: "Delfos",
-      idEtapaParada: 2,
-      etapas: {
+      name: "Delfos",
+      idStopedStep: 2,
+      steps: {
         1: {
-          idEtapa: 1,
-          nomeEtapa: "Create Project",
-          informacao: "Início do projeto",
+          idStep: 1,
+          nameStep: "Create Project",
+          info: "Início do projeto",
         },
         2: {
-          idEtapa: 2,
-          nomeEtapa: "Assemble Team",
-          informacao: "Planejamento concluído",
+          idStep: 2,
+          nameStep: "Assemble Team",
+          info: "Planejamento concluído",
         },
       },
-      caminho: "/caminho/delfos",
+      wayPoint: "/wayPoint/delfos",
       icone: FaRobot,
     },
     {
       id: 2,
-      nome: "Nautilus",
-      idEtapaParada: 1,
-      etapas: {
+      name: "Nautilus",
+      idStopedStep: 1,
+      steps: {
         1: {
-          idEtapa: 1,
-          nomeEtapa: "Create Project",
-          informacao: "Análise de viabilidade",
+          idStep: 1,
+          nameStep: "Create Project",
+          info: "Análise de viabilidade",
         },
       },
-      caminho: "/caminho/nautilus",
+      wayPoint: "/wayPoint/nautilus",
       icone: IoHardwareChipOutline,
     },
     {
       id: 3,
-      nome: "Impettus",
-      idEtapaParada: 3,
-      etapas: {
+      name: "Impettus",
+      idStopedStep: 3,
+      steps: {
         1: {
-          idEtapa: 1,
-          nomeEtapa: "Create Project",
-          informacao: "Proposta inicial",
+          idStep: 1,
+          nameStep: "Create Project",
+          info: "Proposta inicial",
         },
         2: {
-          idEtapa: 2,
-          nomeEtapa: "Assemble Team",
-          informacao: "Planejamento estratégico",
+          idStep: 2,
+          nameStep: "Assemble Team",
+          info: "Planejamento estratégico",
         },
         3: {
-          idEtapa: 3,
-          nomeEtapa: "Define Requirements",
-          informacao: "Execução fase 1",
+          idStep: 3,
+          nameStep: "Define Requirements",
+          info: "Execução fase 1",
         },
       },
-      caminho: "/caminho/impettus",
+      wayPoint: "/wayPoint/impettus",
       icone: FaCloud,
     },
     {
       id: 4,
-      nome: "Lottus",
-      idEtapaParada: 2,
-      etapas: {
+      name: "Lottus",
+      idStopedStep: 2,
+      steps: {
         1: {
-          idEtapa: 1,
-          nomeEtapa: "Create Project",
-          informacao: "Kick-off",
+          idStep: 1,
+          nameStep: "Create Project",
+          info: "Kick-off",
         },
         2: {
-          idEtapa: 2,
-          nomeEtapa: "Assemble Team",
-          informacao: "Definição de escopo",
+          idStep: 2,
+          nameStep: "Assemble Team",
+          info: "Definição de escopo",
         },
       },
-      caminho: "/caminho/lottus",
+      wayPoint: "/wayPoint/lottus",
       icone: GrHp,
     },
   ];
-
   const toggleProject = (projectName: string) => {
     setExpandedProject((prev) => (prev === projectName ? null : projectName));
+    setSelectedProject(projectName);
   };
+
   return (
     <>
       <div className="sidebarheader-container">
         <div className="sidebarheader-line-logo-hide">
           <div className="sidebarheader-logo">Prompto</div>
-          {/* {isSidebarVisible ? (
-            <HiOutlineChevronDoubleLeft
-              size={32}
-              cursor="pointer"
-              className="sidebarheader-hide"
-              onClick={toggleSidebar}
-            />
-          ) : (
-            <HiOutlineChevronDoubleRight
-              size={32}
-              cursor="pointer"
-              className="sidebarheader-hide"
-              onClick={toggleSidebar}
-            />
-          )} */}
         </div>
 
         <div className="sidebarheader-input-container">
@@ -169,71 +142,69 @@ export default function SideBarHeader() {
           <FaMagnifyingGlass className="sidebarheader-glass" size={19} />
         </div>
 
-        {/* <div className="sidebarheader-quickaccess-container">
-          <div className="sidebarheader-quickacess-title">Quick Access:</div>
-          <div className="sidebarheader-quickacess-new-project-container">
-            <AiOutlineFileAdd
-              className="sidebarheader-quickacess-new-project-icon"
-              size={25}
-            />
-            <div className="sidebarheader-quickacess-new-project-text">
-              New Project
-            </div>
-            {/* <button onClick={toggleModal}>
-              {modalOpen ? "Close Modal" : "Open Modal"}
-            </button> */}
-        {/* </div> */}
-        {/* <div className="sidebarheader-quickacess-new-project-container">
-            <LuClipboardList
-              className="sidebarheader-quickacess-new-project-icon"
-              size={25}
-            />
-            <div className="sidebarheader-quickacess-new-project-text">
-              Define Requirements
-            </div>
-          </div>
-          <div className="sidebarheader-quickacess-new-project-container">
-            <RiTeamLine
-              className="sidebarheader-quickacess-new-project-icon"
-              size={25}
-            />
-            <div className="sidebarheader-quickacess-new-project-text">
-              Assemble Team
-            </div>
-          </div>
-        </div> */}
         <div className="sidebarheader-projects-title">Projects:</div>
-
         <div className="sidebarheader-projects-container">
           {projects.map((project) => (
             <div key={project.id}>
+              {/* Nome do Projeto */}
               <div
-                className="sidebarheader-projects-new-project-container"
-                onClick={() => toggleProject(project.nome)}
+                className={`sidebarheader-projects-new-project-container ${
+                  selectedProject === project.name ? "selected" : ""
+                }`}
+                onClick={() => toggleProject(project.name)}
               >
                 <project.icone
                   className="sidebarheader-projects-new-project-icon"
                   size={25}
                 />
                 <div className="sidebarheader-projects-new-project-text">
-                  {project.nome}
+                  {project.name}
                 </div>
               </div>
 
+              {/* Etapas do Projeto */}
               <div
                 className={`sidebar-project-options ${
-                  expandedProject === project.nome ? "expanded" : ""
+                  expandedProject === project.name ? "expanded" : ""
                 }`}
               >
-                {Object.values(project.etapas).map((etapa) => (
-                  <div key={etapa.idEtapa} className="sidebar-project-option">
-                    {etapa.nomeEtapa}
-                  </div>
-                ))}
+                {expandedProject === project.name && (
+                  <>
+                    <div className="sidebar-project-options-title">
+                      Done Steps:
+                    </div>
+                    {Object.values(project.steps)
+                      .filter((step) => step.idStep !== project.idStopedStep)
+                      .map((step) => (
+                        <div
+                          key={step.idStep}
+                          className={`sidebar-project-option ${
+                            step.idStep < project.idStopedStep ? "disabled" : ""
+                          }`}
+                          style={{
+                            pointerEvents:
+                              step.idStep < project.idStopedStep
+                                ? "none"
+                                : "auto",
+                            cursor:
+                              step.idStep < project.idStopedStep
+                                ? "not-allowed"
+                                : "default",
+                          }}
+                        >
+                          {step.nameStep}
+                        </div>
+                      ))}
+                    <div className="sidebar-project-options-continue-project">
+                      Continue project
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           ))}
         </div>
+
         <div className="logosidebar">
           <Logo />
         </div>

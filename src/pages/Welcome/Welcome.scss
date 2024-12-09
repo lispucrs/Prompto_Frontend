@@ -1,0 +1,46 @@
+.welcome-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  font-family: "Poppins";
+  font-style: normal;
+
+  color: #03256c;
+  .welcome-text-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    .welcome-first {
+      font-weight: 400;
+      font-size: 35px;
+    }
+    .welcome-second {
+      font-weight: 700;
+      font-size: 70px;
+    }
+    .welcome-third {
+      font-weight: 700;
+      font-size: 35px;
+    }
+  }
+  .welcome-create-continue-container {
+    .welcome-new-project-container {
+      .welcome-new-project-text {
+      }
+    }
+    .welcome-continue-container {
+      .welcome-continue-title {
+      }
+      .welcome-continue-projects-container {
+        .welcome-continue-project-icon {
+        }
+        .welcome-continue-project-text {
+        }
+      }
+    }
+  }
+}

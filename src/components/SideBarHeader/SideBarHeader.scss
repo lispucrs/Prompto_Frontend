@@ -142,20 +142,57 @@
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      transition: max-height 0.5s ease, opacity 0.5s ease;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
 
       &.expanded {
         max-height: 500px;
         opacity: 1;
       }
     }
+    .sidebar-project-options-title {
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      font-size: 15px;
+    }
+    .sidebar-project-options-continue-project {
+      font-weight: bold;
+      color: #50affc; 
+      transition: color 0.3s ease;
+      font-size: 15px;
 
+      cursor: pointer;
+      padding-bottom: 5px;
+      padding-top: 5px;
+
+      &:hover {
+        color: #91c5fd; 
+      }
+    }
     .sidebar-project-option {
       padding: 0.5rem 1rem;
       background-color: transparent;
       border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: color 0.3s ease;
+      &:hover {
+        color: #6fc9f9;
+      }
+      &.disabled {
+        color: #b5b5b5; 
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      &.continue {
+        font-weight: bold;
+        color: #007bff; 
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #0056b3; 
+        }
+      }
     }
 
     .project-option:hover {
@@ -197,14 +234,15 @@
       }
       .sidebarheader-projects-new-project-icon {
         cursor: pointer;
-        transition: 0.3s ease;
       }
       .sidebarheader-projects-new-project-text {
-        transition: 0.3s ease;
-
         font-size: 20px;
         cursor: pointer;
       }
+    }
+    .sidebarheader-projects-new-project-container.selected {
+      color: #6fc9f9;
+      text-decoration: underline;
     }
   }
   .sidebarheader-logo-container {

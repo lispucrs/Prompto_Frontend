@@ -10,6 +10,7 @@ import {
 import Login from "./pages/Login/Login";
 import Documents from "./pages/Documents/Documents";
 import Chat from "./pages/Chat/Chat";
+import Welcome from "./pages/Welcome/Welcome";
 export default function Router() {
   const location = useLocation();
 
@@ -44,6 +45,7 @@ export default function Router() {
           <Route path="/login" element={<Login />} />
           <Route path="/documents" element={<Documents />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/welcome" element={<Welcome />} />
 
           <Route path="/*" element={<Navigate to="/home" replace />} />
         </Routes>
