@@ -18,6 +18,7 @@ import { GrHp } from "react-icons/gr";
 //   onInstructionChange: (instruction: number) => void;
 // }
 import { useLocation } from "react-router-dom";
+import { AiOutlineFileAdd } from "react-icons/ai";
 
 interface Step {
   idStep: number;
@@ -57,7 +58,7 @@ export default function SideBarHeader() {
       steps: {
         1: {
           idStep: 1,
-          nameStep: "Create Project",
+          nameStep: "Project Overview",
           info: "Início do projeto",
         },
         2: {
@@ -76,7 +77,7 @@ export default function SideBarHeader() {
       steps: {
         1: {
           idStep: 1,
-          nameStep: "Create Project",
+          nameStep: "Project Overview",
           info: "Início do projeto",
         },
         2: {
@@ -95,7 +96,7 @@ export default function SideBarHeader() {
       steps: {
         1: {
           idStep: 1,
-          nameStep: "Create Project",
+          nameStep: "Project Overview",
           info: "Proposta inicial",
         },
         2: {
@@ -106,6 +107,16 @@ export default function SideBarHeader() {
         3: {
           idStep: 3,
           nameStep: "Define Requirements",
+          info: "Execução fase 1",
+        },
+        4: {
+          idStep: 4,
+          nameStep: "RoadMap",
+          info: "Execução fase 1",
+        },
+        5: {
+          idStep: 5,
+          nameStep: "User Stories",
           info: "Execução fase 1",
         },
       },
@@ -119,7 +130,45 @@ export default function SideBarHeader() {
       steps: {
         1: {
           idStep: 1,
-          nameStep: "Create Project",
+          nameStep: "Project Overview",
+          info: "Kick-off",
+        },
+        2: {
+          idStep: 2,
+          nameStep: "Assemble Team",
+          info: "Definição de escopo",
+        },
+      },
+      wayPoint: "/wayPoint/lottus",
+      icone: GrHp,
+    },
+    {
+      id: 4,
+      name: "Lottus",
+      idStopedStep: 2,
+      steps: {
+        1: {
+          idStep: 1,
+          nameStep: "Project Overview",
+          info: "Kick-off",
+        },
+        2: {
+          idStep: 2,
+          nameStep: "Assemble Team",
+          info: "Definição de escopo",
+        },
+      },
+      wayPoint: "/wayPoint/lottus",
+      icone: GrHp,
+    },
+    {
+      id: 4,
+      name: "Lottus",
+      idStopedStep: 2,
+      steps: {
+        1: {
+          idStep: 1,
+          nameStep: "Project Overview",
           info: "Kick-off",
         },
         2: {
@@ -134,7 +183,7 @@ export default function SideBarHeader() {
   ];
   const toggleProject = (projectName: string) => {
     setExpandedProject((prev) => (prev === projectName ? null : projectName));
-    setSelectedProject(projectName);
+    setSelectedProject((prev) => (prev === projectName ? null : projectName));
   };
 
   return (
@@ -154,11 +203,34 @@ export default function SideBarHeader() {
           />
           <FaMagnifyingGlass className="sidebarheader-glass" size={19} />
         </div>
+        <div className="sidebarheader-quickaccess-container">
+          {/* <div className="sidebarheader-quickacess-title">Quick Access:</div> */}
+          <div
+            className="sidebarheader-quickacess-new-project-container"
+            // onClick={() => changeInstruction(1)}
+          >
+            <AiOutlineFileAdd
+              className="sidebarheader-quickacess-new-project-icon"
+              size={25}
+            />
+            <div className="sidebarheader-quickacess-new-project-text">
+              New Project
+            </div>
+            {/* <button onClick={toggleModal}>
+              {modalOpen ? "Close Modal" : "Open Modal"}
+            </button> */}
+          </div>
+        </div>
 
-        <div className="sidebarheader-projects-title">Projects:</div>
+        {/* <div className="sidebarheader-projects-title">Projects:</div> */}
         <div className="sidebarheader-projects-container">
           {projects.map((project) => (
-            <div key={project.id}>
+            <div
+              className={`sidebarheader-projects-new-project-containerSelected ${
+                selectedProject === project.name ? "selected" : ""
+              }`}
+              key={project.id}
+            >
               <div
                 className={`sidebarheader-projects-new-project-container ${
                   selectedProject === project.name ? "selected" : ""
@@ -181,34 +253,24 @@ export default function SideBarHeader() {
               >
                 {expandedProject === project.name && (
                   <>
-                    <div className="sidebar-project-options-title">
-                      Done Steps:
-                    </div>
-                    {Object.values(project.steps)
-                      .filter((step) => step.idStep !== project.idStopedStep)
-                      .map((step) => (
-                        <div
-                          key={step.idStep}
-                          className={`sidebar-project-option ${
-                            step.idStep < project.idStopedStep ? "disabled" : ""
-                          }`}
-                          style={{
-                            pointerEvents:
-                              step.idStep < project.idStopedStep
-                                ? "none"
-                                : "auto",
-                            cursor:
-                              step.idStep < project.idStopedStep
-                                ? "not-allowed"
-                                : "default",
-                          }}
-                        >
-                          {step.nameStep}
-                        </div>
-                      ))}
-                    <div className="sidebar-project-options-continue-project">
-                      Continue project
-                    </div>
+                    {Object.values(project.steps).map((step) => (
+                      <div
+                        key={step.idStep}
+                        className={`sidebar-project-option ${
+                          step.idStep >= project.idStopedStep
+                            ? "incomplete"
+                            : "complete"
+                        }`}
+                        style={{
+                          cursor:
+                            step.idStep >= project.idStopedStep
+                              ? "pointer"
+                              : "default",
+                        }}
+                      >
+                        {step.nameStep}
+                      </div>
+                    ))}
                   </>
                 )}
               </div>

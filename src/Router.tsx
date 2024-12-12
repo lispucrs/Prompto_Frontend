@@ -47,6 +47,7 @@ export default function Router() {
           <Route path="/chat" element={<Chat />} />
           <Route path="/welcome" element={<Welcome />} />
 
+
           <Route path="/*" element={<Navigate to="/home" replace />} />
         </Routes>
       </div>

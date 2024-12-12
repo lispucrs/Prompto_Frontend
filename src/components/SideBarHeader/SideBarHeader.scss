@@ -13,11 +13,13 @@
   transition: transform 0.6s linear;
   transform: translateX(0);
   font-family: "Poppins";
-
   color: #ffffff;
+  transition: 0.3s ease;
+
   &.hidden {
     transform: translateX(-104%);
   }
+
   .sidebarheader-line-logo-hide {
     height: 10%;
     display: flex;
@@ -91,15 +93,19 @@
     color: #ffffff;
     margin-bottom: 45px;
     gap: 15px;
+    border-bottom: 1px solid white;
+    margin-bottom: 30px;
 
     .sidebarheader-quickacess-title {
       font-size: 20px;
+
     }
     .sidebarheader-quickacess-new-project-container {
       display: flex;
       align-items: center;
       gap: 10px;
       transition: color 0.3s ease-out;
+    margin-bottom: 30px;
 
       font-family: "Montserrat";
       font-style: normal;
@@ -120,10 +126,15 @@
       }
     }
   }
+
   .sidebarheader-projects-title {
     font-size: 20px;
     padding-bottom: 15px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+
   }
+
   .sidebarheader-projects-container {
     display: flex;
     flex-direction: column;
@@ -131,10 +142,12 @@
     font-weight: 400;
     font-style: normal;
     color: #ffffff;
-    max-height: 600px;
+    max-height: 400px;
     overflow-y: auto;
     gap: 10px;
+    
     .sidebar-project-options {
+      //border-bottom: 2px solid white;
       overflow: hidden;
       max-height: 0;
       opacity: 0;
@@ -147,78 +160,66 @@
       &.expanded {
         max-height: 500px;
         opacity: 1;
+        border-radius: 8px;
       }
     }
+
     .sidebar-project-options-title {
       font-weight: bold;
       margin-top: 10px;
       margin-bottom: 5px;
       font-size: 15px;
     }
+
     .sidebar-project-options-continue-project {
       font-weight: bold;
       color: #ffffff;
       transition: 0.3s ease;
       font-size: 15px;
-      border-radius: 8px;
+      //border-radius: 8px;
       width: 70%;
       padding: 0 12px;
       cursor: pointer;
       padding-bottom: 5px;
       padding-top: 5px;
-      background-color: #0057b3ca;
 
       &:hover {
-        //color: #ffffff;
         background-color: #3b67b8;
       }
     }
+
     .sidebar-project-option {
       padding: 0.5rem 1rem;
       background-color: transparent;
       border-radius: 5px;
       cursor: pointer;
       transition: color 0.3s ease;
+
       &:hover {
         color: #6fc9f9;
       }
+
       &.disabled {
         color: #b5b5b5;
         cursor: not-allowed;
         pointer-events: none;
       }
 
-      &.continue {
-        font-weight: bold;
-        color: #007bff;
-        transition: color 0.3s ease;
+      &.disabled:hover {
+        color: #b5b5b5;
+      }
+
+      &.complete {
+        color: rgb(123, 123, 123);
+      }
+
+      &.incomplete {
+        color: #ffffff;
 
         &:hover {
-          color: #0056b3;
+          color: #6fc9f9;
         }
       }
-    }
-
-    .project-option:hover {
-      background-color: #e0e0e076;
-    }
-
-    &::-webkit-scrollbar {
-      width: 8px;
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: #ffffff;
-      border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background-color: #dddddd;
     }
 
     .sidebarheader-projects-new-project-container {
@@ -226,7 +227,6 @@
       align-items: center;
       gap: 10px;
       margin-bottom: 10px;
-      transition: color 0.3s ease-out;
       font-family: "Montserrat";
       font-style: normal;
       font-weight: 300;
@@ -236,23 +236,42 @@
       &:hover {
         color: #90d8ff;
       }
+
       .sidebarheader-projects-new-project-icon {
         cursor: pointer;
       }
+
       .sidebarheader-projects-new-project-text {
         font-size: 20px;
         cursor: pointer;
       }
     }
-    .sidebarheader-projects-new-project-container.selected {
-      color: #6fc9f9;
+
+    .sidebarheader-projects-new-project-containerSelected {
+      &.selected {
+        // border-top: 2px solid #a9a9a9;
+        // border-bottom: 2px solid #a9a9a9;
+        // border: 2px solid #ffffff;
+
+        border-radius: 8px;
+        transition: border-color 0.3s ease;
+        margin: 0;
+        padding: 0;
+
+        .sidebarheader-projects-new-project-container {
+          color: #90d8ff;
+          // text-decoration: underline;
+        }
+      }
     }
   }
+
   .sidebarheader-logo-container {
     position: absolute;
     top: 710px;
     left: 60px;
   }
+
   .logosidebar {
     margin-top: auto;
     margin-bottom: 20px;

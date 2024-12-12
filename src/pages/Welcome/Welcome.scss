@@ -6,6 +6,7 @@
   font-family: "Poppins";
   font-style: normal;
   flex-direction: column;
+  justify-content: center;
   color: #03256c;
   .welcome-text-container {
     width: 100%;
@@ -14,6 +15,7 @@
     align-items: center;
     justify-content: flex-start;
     .welcome-first {
+      text-align: left;
       font-weight: 400;
       font-size: 35px;
     }
