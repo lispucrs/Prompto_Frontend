@@ -1,12 +1,47 @@
 .documents-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   padding: 20px;
   width: 100%;
   height: 100%;
-  color: red;
+  color: #03256c;
   border: 1px solid red;
-  
+  .documents-title {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 100px;
+  }
+
+  .documents-filters-container {
+    display: flex;
+    background: rgba(255, 255, 255, 0.83);
+    border: 0.5px solid #03256c;
+    border-radius: 18px;
+    width: 150px;
+    height: 35px;
+    .documents-filter-list {
+      color: #03256c;
+    }
+    .documents-filter-grid {
+    }
+  }
+
+  .documents-list-container {
+    .documents-document-container {
+      .documents-document-left-side {
+        .documents-document-icon {
+        }
+        .documents-document-name {
+        }
+      }
+
+      .documents-document-right-side {
+        .documents-document-created-date {
+        }
+        .documents-document-dots {
+        }
+      }
+    }
+  }
 }

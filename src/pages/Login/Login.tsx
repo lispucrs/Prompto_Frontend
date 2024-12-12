@@ -1,21 +1,57 @@
 import logoHp from "../../assets/logo HP.svg";
 import "./Login.scss";
 import logoPucrs from "../../assets/logopucrs.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
-import { BsFillEyeFill } from "react-icons/bs";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../services/authService";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [error, setError] = useState("");
+  const [shake, setShake] = useState(false);
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("loggedIn");
+    if (isLoggedIn) {
+      navigate("/welcome");
+    }
+  }, [navigate]);
+
   const handlePasswordVision = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
-  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      const userId = await login(email, password);
+
+      if (userId) {
+        // Armazena o estado de login e o ID do usuário no localStorage
+        localStorage.setItem("loggedIn", "true");
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("email", email);
+
+        // Redireciona para a página de boas-vindas
+        navigate("/welcome");
+      } else {
+        // Se o ID for vazio, as credenciais estão incorretas
+        setError("Invalid email or password.");
+        setShake(true);
+        setTimeout(() => setShake(false), 500);
+      }
+    } catch (error) {
+      setError(
+        error.message || "Erro ao verificar credenciais. Tente novamente."
+      );
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
+    }
+  };
 
   return (
     <>
@@ -63,7 +99,7 @@ export default function Login() {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && navigate("/documents")}
+                  onKeyDown={(e) => e.key === "Enter" && handleLogin()}
                 />
                 <button
                   type="button"
@@ -75,11 +111,12 @@ export default function Login() {
               </div>
             </div>
           </div>
-          <Link to="/welcome">
-            <Button type="tertiary" size="small">
-              Enter
-            </Button>
-          </Link>
+          {error && (
+            <p className={`error-message ${shake ? "shake" : ""}`}>{error}</p>
+          )}
+          <Button type="tertiary" size="small" onClick={handleLogin}>
+            Enter
+          </Button>
         </div>
       </div>
     </>
