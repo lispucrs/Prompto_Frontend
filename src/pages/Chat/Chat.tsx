@@ -17,7 +17,8 @@ import { RiRobot3Line } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 import InstructionSelector from "../../components/InstructionSelector/InstructionSelector";
 import { useLocation } from "react-router-dom";
-
+import { sendMessageToBackend } from "../../services/chatService";
+import { changeInstruction } from "../../services/instructionService";
 type Message = {
   text: string;
   sender: "user" | "bot" | "bot-loading";
@@ -44,23 +45,10 @@ export default function Chat() {
   );
   const handleInstructionChange = async (instructionKey: number) => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/change-instruction", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ instruction_key: instructionKey }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao alterar a instrução do sistema.");
-      }
-
-      console.log("Instrução alterada com sucesso!");
-      setSelectedInstruction(instructionKey); // Salva a instrução selecionada
+      await changeInstruction(instructionKey);
+      setSelectedInstruction(instructionKey);
     } catch (error) {
-      console.error("Erro ao enviar instrução:", error);
-      alert("Erro ao alterar a instrução do sistema.");
+      alert(error.message);
     }
   };
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -170,15 +158,11 @@ export default function Chat() {
     setMessages((prev) =>
       prev
         .filter((msg) => msg.sender !== "bot-loading")
-        .concat({
-          text: "",
-          sender: "bot-loading",
-        })
+        .concat({ text: "", sender: "bot-loading" })
     );
 
     try {
       const botResponse = await sendMessageToBackend(currentMessage);
-
       setMessages((prev) =>
         prev
           .filter((msg) => msg.sender !== "bot-loading")
