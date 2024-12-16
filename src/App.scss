@@ -1,11 +1,11 @@
-@import "./themes/GlobalThemes.scss";
+@use "./themes/GlobalThemes.scss" as themes;
 
 :root {
-  --background: $background;
-  --font: $font;
-  --button: $button; /* for all the buttons */
-  --main-blue: #8fdeff; /* for key elements and primary metrics of charts */
-  --main-purple: #ad6dff; /* mainly for secondary metrics of charts */
+  --background: #{themes.$background};
+  --font: #{themes.$font};
+  --button: #{themes.$button};
+  --main-blue: #8fdeff;
+  --main-purple: #ad6dff;
 }
 
 * {
@@ -14,21 +14,20 @@
   box-sizing: border-box;
 }
 
-/* CSS para desabilitar o scroll horizontal */
 html,
 body {
   overflow-x: hidden;
 }
 
 body {
-  background-color: $background;
-  color: $font;
-  font-family: $font-family;
+  background-color: var(--background);
+  color: var(--font);
+  font-family: #{themes.$font-family};
   padding-right: 17px !important;
 }
 
 .home-page {
-  background-color: $background;
+  background-color: var(--background);
   background-image: url("./assets/Dots.png");
 }
 
@@ -43,15 +42,17 @@ body {
   background-image: url("./assets/Line 2docs .svg");
   background-position: calc(100% - 50px) center;
 }
+
 .no-padding {
   padding: 0 !important;
 }
+
 .docs-padding {
   flex-direction: row !important;
   padding: 70px 60px !important;
   justify-content: space-between;
-  
 }
+
 .container {
   display: flex;
   justify-content: center;
@@ -66,7 +67,6 @@ body {
   gap: 20px;
   width: 100vw;
   padding: 70px 120px;
-  
 }
 
 ::-webkit-scrollbar {
@@ -78,16 +78,14 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #4b4f5f; //scroll bar
+  background-color: #4b4f5f;
   border-radius: 10px;
-  transition: background-color 0.3s ease; /* Suave transição de cor */
-
+  transition: background-color 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #84858a; //hover
-  transition: background-color 0.3s ease; /* Suave transição de cor */
-
+  background-color: #84858a;
+  transition: background-color 0.3s ease;
 }
 
 html {

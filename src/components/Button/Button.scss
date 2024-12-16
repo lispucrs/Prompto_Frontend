@@ -1,4 +1,4 @@
-@import "../../themes/GlobalThemes.scss";
+@use "../../themes/GlobalThemes.scss" as themes;
 
 .button {
   border: none;
@@ -28,11 +28,11 @@
       background-color: #1a7cbd;
     }
   }
+
   &.secondary {
     background-color: white;
-    color: $background;
+    color: themes.$background; // Acessando a variável na namespace
     border-radius: 40px;
-
     font-size: 22px;
     display: flex;
     align-items: center;
