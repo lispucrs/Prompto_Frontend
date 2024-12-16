@@ -103,6 +103,7 @@
           .documents-document-buts {
             display: flex;
             margin-right: 20px;
+            gap: 10px;
 
             .documents-document-dots {
               transition: 0.3s ease;
@@ -116,7 +117,7 @@
               transition: 0.3s ease;
               cursor: pointer;
               &:hover {
-                color: rgb(56, 138, 163);
+                color: rgb(255, 0, 0);
               }
             }
           }
