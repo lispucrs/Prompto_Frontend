@@ -29,8 +29,8 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const userId = await login(email, password);
-
-      if (userId) {
+      console.log(userId);
+      if (userId != "") {
         // Armazena o estado de login e o ID do usuário no localStorage
         localStorage.setItem("loggedIn", "true");
         localStorage.setItem("userId", userId);
@@ -40,14 +40,14 @@ export default function Login() {
         navigate("/welcome");
       } else {
         // Se o ID for vazio, as credenciais estão incorretas
-        setError("Invalid email or password.");
-        setShake(true);
-        setTimeout(() => setShake(false), 500);
       }
     } catch (error) {
       setError(
-        error.message || "Erro ao verificar credenciais. Tente novamente."
+        "Invalid email or password."
+
+        // error.message || "Erro ao verificar credenciais. Tente novamente."
       );
+
       setShake(true);
       setTimeout(() => setShake(false), 500);
     }

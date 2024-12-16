@@ -63,6 +63,11 @@
         display: flex;
         justify-content: space-between;
         padding: 15px 0;
+        transition: 0.3s ease;
+        //cursor: pointer;
+        // &:hover {
+        //   background-color: rgba(128, 128, 128, 0.298);
+        // }
 
         .documents-document-left-side {
           display: flex;
@@ -95,8 +100,25 @@
 
             color: rgba(3, 37, 108, 0.3);
           }
-          .documents-document-dots {
+          .documents-document-buts {
+            display: flex;
             margin-right: 20px;
+
+            .documents-document-dots {
+              transition: 0.3s ease;
+              cursor: pointer;
+              &:hover {
+                color: rgb(56, 138, 163);
+              }
+            }
+            .documents-document-trash {
+              margin-right: 20px;
+              transition: 0.3s ease;
+              cursor: pointer;
+              &:hover {
+                color: rgb(56, 138, 163);
+              }
+            }
           }
         }
       }

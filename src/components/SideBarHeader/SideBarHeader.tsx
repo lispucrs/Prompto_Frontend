@@ -17,8 +17,9 @@ import { GrHp } from "react-icons/gr";
 // interface SideBarHeaderProps {
 //   onInstructionChange: (instruction: number) => void;
 // }
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AiOutlineFileAdd } from "react-icons/ai";
+import { IoDocumentTextOutline } from "react-icons/io5";
 
 interface Step {
   idStep: number;
@@ -143,8 +144,8 @@ export default function SideBarHeader() {
       icone: GrHp,
     },
     {
-      id: 4,
-      name: "Lottus",
+      id: 5,
+      name: "Grac",
       idStopedStep: 2,
       steps: {
         1: {
@@ -158,12 +159,12 @@ export default function SideBarHeader() {
           info: "Definição de escopo",
         },
       },
-      wayPoint: "/wayPoint/lottus",
+      wayPoint: "/wayPoint/grac",
       icone: GrHp,
     },
     {
-      id: 4,
-      name: "Lottus",
+      id: 6,
+      name: "Jam",
       idStopedStep: 2,
       steps: {
         1: {
@@ -177,7 +178,7 @@ export default function SideBarHeader() {
           info: "Definição de escopo",
         },
       },
-      wayPoint: "/wayPoint/lottus",
+      wayPoint: "/wayPoint/jam",
       icone: GrHp,
     },
   ];
@@ -220,6 +221,23 @@ export default function SideBarHeader() {
               {modalOpen ? "Close Modal" : "Open Modal"}
             </button> */}
           </div>
+          <Link to="/documents">
+            <div
+              className="sidebarheader-quickacess-new-project-container"
+              // onClick={() => changeInstruction(1)}
+            >
+              <IoDocumentTextOutline
+                className="sidebarheader-quickacess-new-project-icon"
+                size={25}
+              />
+              <div className="sidebarheader-quickacess-new-project-text">
+                Documents
+              </div>
+              {/* <button onClick={toggleModal}>
+              {modalOpen ? "Close Modal" : "Open Modal"}
+            </button> */}
+            </div>
+          </Link>
         </div>
 
         {/* <div className="sidebarheader-projects-title">Projects:</div> */}

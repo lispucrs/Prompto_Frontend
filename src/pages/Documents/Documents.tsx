@@ -5,6 +5,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { CiGrid41 } from "react-icons/ci";
 import { GrHp } from "react-icons/gr";
 import { BsThreeDots } from "react-icons/bs";
+import { GoDownload } from "react-icons/go";
 
 export default function Documents() {
   const mockDocuments = [
@@ -36,10 +37,15 @@ export default function Documents() {
                   <div className="documents-document-created-date">
                     {doc.createdDate}
                   </div>
-                  <BsThreeDots
-                    size={20}
+                  <div className="documents-document-buts">
+                  <GoDownload
+                    size={26}
                     className="documents-document-dots"
-                  ></BsThreeDots>
+                  ></GoDownload>
+                  <GoDownload
+                    size={26}
+                    className="documents-document-trash"
+                  ></GoDownload>
                 </div>
               </div>
             ))}
