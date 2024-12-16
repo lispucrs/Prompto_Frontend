@@ -14,9 +14,13 @@ export default function Login() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [error, setError] = useState("");
   const [shake, setShake] = useState(false);
+  console.log(localStorage.getItem("loggedIn"));
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("loggedIn");
+    console.log("isLoggedIn");
+    console.log(isLoggedIn);
+
     if (isLoggedIn) {
       navigate("/welcome");
     }

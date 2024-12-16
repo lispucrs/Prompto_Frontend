@@ -9,8 +9,9 @@ import { IoArrowForward } from "react-icons/io5";
 import SideBarHeader from "../../components/SideBarHeader/SideBarHeader";
 
 export default function Welcome() {
-  const navigate = useNavigate();
+  console.log(localStorage.getItem("loggedIn"));
 
+  const navigate = useNavigate();
   const handleProjectSelect = (projectName: string) => {
     navigate("/chat", { state: { selectedProject: projectName } });
   };

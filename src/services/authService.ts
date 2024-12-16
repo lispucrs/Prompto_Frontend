@@ -6,9 +6,12 @@ export const login = async (
 ): Promise<string> => {
   try {
     const response = await api.post("/auth/login", { email, password });
+    console.log(response);
 
-    if (response.status === 200 && response.data.id) {
-      return response.data.id; // Retorna o ID do usuário se o login for bem-sucedido
+    console.log(response.data.user.id);
+    console.log(response.status);
+    if (response.status === 200 && response.data.user.id) {
+      return response.data.id; 
     } else {
       throw new Error("Invalid email or password.");
     }

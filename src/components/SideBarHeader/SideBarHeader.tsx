@@ -2,7 +2,7 @@
 import "./SideBarHeader.scss";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 // import { AiOutlineFileAdd } from "react-icons/ai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import Modal from "../Modal/Modal";
 // import { LuClipboardList } from "react-icons/lu";
 // import { RiTeamLine } from "react-icons/ri";
@@ -20,13 +20,13 @@ import { GrHp } from "react-icons/gr";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import { FetchUserProjects } from "../../services/fetchUserProjectsUnd";
 
 interface Step {
   idStep: number;
   nameStep: string;
   info: string;
 }
-
 interface Project {
   id: number;
   name: string;
@@ -43,6 +43,41 @@ interface User {
 }
 
 export default function SideBarHeader() {
+  const [projectsUndone, setProjectsUndone] = useState<any[]>([]); // Estado para armazenar os projetos
+  const userId = 68; // Substitua pelo ID do usuário logado
+  const idteste = Number(localStorage.getItem("userId"));
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const data = await FetchUserProjects.getProjects(userId);
+
+        // Mapear os dados para incluir os ícones e steps formatados
+        const formattedProjects = data.map((project: any) => ({
+          ...project,
+          id: project.project_id,
+          steps: project.done_steps.map((step: any, index: number) => ({
+            idStep: index + 1,
+            nameStep: `Step ${index + 1}`,
+            info: step[Object.keys(step)[0]] || "No info",
+          })),
+          idStopedStep: project.next_step,
+          icone:
+            project.icon === "FaRobot"
+              ? FaRobot
+              : project.icon === "IoHardwareChipOutline"
+              ? IoHardwareChipOutline
+              : FaRobot, // Adicione mais casos conforme necessário
+        }));
+
+        setProjectsUndone(formattedProjects);
+        console.log(formattedProjects);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
+
+    fetchProjects();
+  }, [userId]);
   const location = useLocation();
   const { selectedProject: initialSelectedProject } = location.state || {};
 
@@ -242,7 +277,7 @@ export default function SideBarHeader() {
 
         {/* <div className="sidebarheader-projects-title">Projects:</div> */}
         <div className="sidebarheader-projects-container">
-          {projects.map((project) => (
+          {projectsUndone.map((project) => (
             <div
               className={`sidebarheader-projects-new-project-containerSelected ${
                 selectedProject === project.name ? "selected" : ""
@@ -271,9 +306,9 @@ export default function SideBarHeader() {
               >
                 {expandedProject === project.name && (
                   <>
-                    {Object.values(project.steps).map((step) => (
+                    {project.done_steps.map((step: any, index: number) => (
                       <div
-                        key={step.idStep}
+                        key={index} // Pode usar o índice ou um identificador único
                         className={`sidebar-project-option ${
                           step.idStep >= project.idStopedStep
                             ? "incomplete"
@@ -286,7 +321,8 @@ export default function SideBarHeader() {
                               : "default",
                         }}
                       >
-                        {step.nameStep}
+                        {step.stepName || `Step ${index + 1}`}{" "}
+                        {/* Ajusta o nome do step */}
                       </div>
                     ))}
                   </>
