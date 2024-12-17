@@ -5,14 +5,48 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { CiGrid41 } from "react-icons/ci";
 import { GrHp } from "react-icons/gr";
 import { BsThreeDots } from "react-icons/bs";
-import { GoDownload, GoTrash  } from "react-icons/go";
+import { GoDownload, GoTrash } from "react-icons/go";
+import { FetchUserCompleteProjects } from "../../services/fetchUserProjectsDone"; // Importa a classe
+import { useEffect, useState } from "react";
+import { FaCloud, FaRobot } from "react-icons/fa";
+import { IoHardwareChipOutline } from "react-icons/io5";
 
+interface Project {
+  icon: React.ElementType;
+  name: string;
+  createdDate: string;
+}
+const ICON_MAP: { [key: string]: React.ElementType } = {
+  FaRobot: FaRobot,
+  IoHardwareChipOutline: IoHardwareChipOutline,
+  FaCloud: FaCloud,
+  GrHp: GrHp,
+};
 export default function Documents() {
-  const mockDocuments = [
-    { icon: GrHp, name: "Lottus", createdDate: "created Aug 15, 2024" },
-    { icon: GrHp, name: "Lottus", createdDate: "created Aug 15, 2024" },
-    { icon: GrHp, name: "Lottus", createdDate: "created Aug 15, 2024" },
-  ];
+  const [projects, setProjects] = useState<Project[]>([]);
+  const userId = Number(localStorage.getItem("userId")); 
+  console.log(userId);
+  useEffect(() => {
+    const fetchCompleteProjects = async () => {
+      try {
+        const data = await FetchUserCompleteProjects.getCompleteProjects(
+          userId
+        );
+
+        const formattedProjects = data.map((project: any) => ({
+          icon: ICON_MAP[project.icon] || GrHp,
+          name: project.name || "Unnamed Project",
+          createdDate: project.created_date || "No Date Provided",
+        }));
+
+        setProjects(formattedProjects);
+      } catch (error) {
+        console.error("Erro ao buscar projetos completos:", error);
+      }
+    };
+
+    fetchCompleteProjects();
+  }, [userId]);
   return (
     <>
       <SideBarHeader />
@@ -27,7 +61,7 @@ export default function Documents() {
             <CiGrid41 size={26} className="documents-filter-grid"></CiGrid41>
           </div>
           <div className="documents-list-container">
-            {mockDocuments.map((doc, index) => (
+            {projects.map((doc, index) => (
               <div key={index} className="documents-document-container">
                 <div className="documents-document-left-side">
                   <doc.icon size={45} className="documents-document-icon" />
@@ -38,14 +72,8 @@ export default function Documents() {
                     {doc.createdDate}
                   </div>
                   <div className="documents-document-buts">
-                    <GoDownload
-                      size={26}
-                      className="documents-document-dots"
-                    ></GoDownload>
-                    <GoTrash
-                      size={26}
-                      className="documents-document-trash"
-                    ></GoTrash>
+                    <GoDownload size={26} className="documents-document-dots" />
+                    <GoTrash size={26} className="documents-document-trash" />
                   </div>
                 </div>
               </div>

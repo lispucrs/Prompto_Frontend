@@ -11,7 +11,7 @@ export class FetchUserProjects {
         throw new Error("Erro ao buscar os projetos do usuário.");
       }
       console.log("Projetos obtidos com sucesso:", response.data);
-      return response.data; // Retorna os dados dos projetos
+      return response.data;
     } catch (error) {
       console.error("Erro ao buscar projetos:", error);
       console.log(userId);
