@@ -43,15 +43,17 @@ interface User {
 }
 
 export default function SideBarHeader() {
-  const [projectsUndone, setProjectsUndone] = useState<any[]>([]); // Estado para armazenar os projetos
-  const userId = 68; // Substitua pelo ID do usuário logado
-  const idteste = Number(localStorage.getItem("userId"));
+  const [projectsUndone, setProjectsUndone] = useState<any[]>([]);
+  const userId = Number(localStorage.getItem("userId"));
+  const idteste = 2;
+  console.log("idteste");
+
+  console.log(idteste);
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const data = await FetchUserProjects.getProjects(userId);
 
-        // Mapear os dados para incluir os ícones e steps formatados
         const formattedProjects = data.map((project: any) => ({
           ...project,
           id: project.project_id,
@@ -66,7 +68,7 @@ export default function SideBarHeader() {
               ? FaRobot
               : project.icon === "IoHardwareChipOutline"
               ? IoHardwareChipOutline
-              : FaRobot, // Adicione mais casos conforme necessário
+              : FaRobot, 
         }));
 
         setProjectsUndone(formattedProjects);

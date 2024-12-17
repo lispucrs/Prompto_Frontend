@@ -11,7 +11,7 @@ export const login = async (
     console.log(response.data.user.id);
     console.log(response.status);
     if (response.status === 200 && response.data.user.id) {
-      return response.data.id; 
+      return response.data.user.id;
     } else {
       throw new Error("Invalid email or password.");
     }

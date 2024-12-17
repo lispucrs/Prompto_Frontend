@@ -33,6 +33,8 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const userId = await login(email, password);
+      console.log("userId");
+
       console.log(userId);
       if (userId != "") {
         // Armazena o estado de login e o ID do usuário no localStorage
