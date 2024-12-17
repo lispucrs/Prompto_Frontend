@@ -60,52 +60,6 @@ export default function Chat() {
   const handlePromptClick = (prompt: string) => {
     setCurrentMessage(prompt);
   };
-  // async function changeInstruction(instructionKey: string): Promise<void> {
-  //   try {
-  //     const response = await fetch("http://127.0.0.1:8000/change-instruction", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ instruction_key: instructionKey }),
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("Erro ao alterar a instrução do sistema.");
-  //     }
-
-  //     const data = await response.json();
-  //     console.log("Instrução alterada:", data.message);
-  //     alert("Instrução alterada com sucesso!");
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert("Erro ao alterar a instrução do sistema.");
-  //   }
-  // }
-
-  async function sendMessageToBackend(userInput: string): Promise<string> {
-    try {
-      const response = await fetch("http://127.0.0.1:8000/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ user_input: userInput }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Erro ao conectar com o backend.");
-      }
-
-      const data = await response.json();
-      console.log("Resposta do Gemini:", data.response);
-      return data.response;
-    } catch (error) {
-      console.error(error);
-      alert("Erro ao consultar o Gemini API.");
-      return "Desculpe, não consegui processar sua solicitação.";
-    }
-  }
 
   // const fetchData = async () => {
   //   axios
