@@ -14,7 +14,7 @@ import { IoHardwareChipOutline } from "react-icons/io5";
 interface Project {
   icon: React.ElementType;
   name: string;
-  createdDate: string;
+  createdDate: Date;
 }
 const ICON_MAP: { [key: string]: React.ElementType } = {
   FaRobot: FaRobot,
@@ -24,7 +24,7 @@ const ICON_MAP: { [key: string]: React.ElementType } = {
 };
 export default function Documents() {
   const [projects, setProjects] = useState<Project[]>([]);
-  const userId = Number(localStorage.getItem("userId")); 
+  const userId = Number(localStorage.getItem("userId"));
   console.log(userId);
   useEffect(() => {
     const fetchCompleteProjects = async () => {
@@ -36,7 +36,7 @@ export default function Documents() {
         const formattedProjects = data.map((project: any) => ({
           icon: ICON_MAP[project.icon] || GrHp,
           name: project.name || "Unnamed Project",
-          createdDate: project.created_date || "No Date Provided",
+          createdDate: project.created_at ? new Date(project.created_at) : null,
         }));
 
         setProjects(formattedProjects);
@@ -69,7 +69,9 @@ export default function Documents() {
                 </div>
                 <div className="documents-document-right-side">
                   <div className="documents-document-created-date">
-                    {doc.createdDate}
+                    {doc.createdDate
+                      ? doc.createdDate.toLocaleDateString()
+                      : "No Date Provided"}
                   </div>
                   <div className="documents-document-buts">
                     <GoDownload size={26} className="documents-document-dots" />
