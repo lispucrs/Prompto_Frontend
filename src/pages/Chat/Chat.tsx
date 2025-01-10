@@ -1,56 +1,28 @@
+
+
 import SideBarHeader from "../../components/SideBarHeader/SideBarHeader";
 import Profile from "../../components/Profile/Profile";
 import "./Chat.scss";
 import { FaArrowUp, FaRobot } from "react-icons/fa";
-import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import {
-  oneDark,
-  atomDark,
-} from "react-syntax-highlighter/dist/esm/styles/prism";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript";
-import jsx from "react-syntax-highlighter/dist/esm/languages/prism/jsx";
-import { RiRobot3Line } from "react-icons/ri";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useEffect, useRef, useState } from "react";
-import InstructionSelector from "../../components/InstructionSelector/InstructionSelector";
 import { useLocation } from "react-router-dom";
 import { sendMessageToBackend } from "../../services/chatService";
-import { changeInstruction } from "../../services/instructionService";
+
 type Message = {
   text: string;
   sender: "user" | "bot" | "bot-loading";
 };
 
 export default function Chat() {
-  const [data, setData] = useState<string>("");
-  const [inputUser, setInputUser] = useState<string>("");
-  const instructions = [
-    { key: 1, label: "Create Project" },
-    { key: 2, label: "Define Requirements" },
-    { key: 3, label: "Assemble Team" },
-    { key: 4, label: "Generate RoadMap" },
-    { key: 5, label: "User Stories" },
-  ];
-  const [isModalOpen, setModalOpen] = useState(true);
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+
   const location = useLocation();
-  const { selectedProject } = location.state || {}; // Recupera o projeto selecionado
-  const [selectedInstruction, setSelectedInstruction] = useState<number | null>(
-    null
-  );
-  const handleInstructionChange = async (instructionKey: number) => {
-    try {
-      await changeInstruction(instructionKey);
-      setSelectedInstruction(instructionKey);
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+  const { selectedProject } = location.state || {};
+  const projectId = selectedProject?.id || null;
+
+
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -61,48 +33,21 @@ export default function Chat() {
     setCurrentMessage(prompt);
   };
 
-  // const fetchData = async () => {
-  //   axios
-  //     .post("http://127.0.0.1:8000/chat", {
-  //       user_input: inputUser,
-  //     })
-  //     .then(function (response) {
-  //       console.log(response);
-  //     });
-  // };
-
+  // Estados relacionados ao chat
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentMessage, setCurrentMessage] = useState("");
   const [haveText, setHaveText] = useState(false);
-  // const [inputPosition, setInputPosition] = useState<"center" | "bottom">(
-  //   "center"
-  // );
   const [isWaiting, setIsWaiting] = useState(false);
+
   const bottomRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
-  console.log(haveText);
-  const promptsLeft = [
-    "Create a new project!",
-    "Form a team for my project",
-    "Create user stories to base my new project!",
-  ];
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-  const promptsRight = [
-    "I want to create a new project",
-    "How can I distribute tasks to my team?",
-    "Define the requirements for my project.",
-  ];
-  const handleInputChange = (e) => {
-    setCurrentMessage(e.target.value);
-  };
+
   const handleSendMessage = async () => {
-    if (currentMessage.trim() === "" || isWaiting) return;
+    if (currentMessage.trim() === "" || isWaiting || !projectId) return;
 
     setMessages((prev) => [...prev, { text: currentMessage, sender: "user" }]);
     setHaveText(true);
@@ -116,7 +61,7 @@ export default function Chat() {
     );
 
     try {
-      const botResponse = await sendMessageToBackend(currentMessage);
+      const botResponse = await sendMessageToBackend(projectId, currentMessage);
       setMessages((prev) =>
         prev
           .filter((msg) => msg.sender !== "bot-loading")
@@ -135,41 +80,35 @@ export default function Chat() {
       setIsWaiting(false);
     }
   };
-  console.log(selectedInstruction);
-  if (selectedInstruction === null) {
-    return (
-      <>
-        {isModalOpen && (
-          <div className="modal-overlay">
-            <div className="modal-content">
-              <h2>Welcome to the Chat Page</h2>
-              <p>
-                Here you can interact with the assistant, explore ready prompts,
-                and much more. Feel free to start by selecting a prompt or
-                typing your question.
-              </p>
-              {/* <button className="close-modal-button" onClick={closeModal}>
-                Get Started
-              </button> */}
-              <InstructionSelector
-                instructions={instructions}
-                onSelect={handleInstructionChange}
-              />
-            </div>
-          </div>
-        )}
-        <SideBarHeader />
 
-        <Profile />
-      </>
-    );
-  }
+  // Efeito para rolar até o fim quando as mensagens mudarem
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // Prompts prontos
+  const promptsLeft = [
+    "Create a new project!",
+    "Form a team for my project",
+    "Create user stories to base my new project!",
+  ];
+  const promptsRight = [
+    "I want to create a new project",
+    "How can I distribute tasks to my team?",
+    "Define the requirements for my project.",
+  ];
+
+  // Função para capturar mudanças no campo de input
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCurrentMessage(e.target.value);
+  };
+
   return (
     <>
       <SideBarHeader />
       <div className="chat-container">
         <div className="chat-title">
-          {selectedInstruction} - Project: {selectedProject || "None"}
+          Project: {selectedProject?.name || "None"}
         </div>
 
         {!haveText && (
@@ -243,9 +182,6 @@ export default function Chat() {
               ) : (
                 <div>{message.text}</div>
               )}
-              {(index + 1) % 2 === 0 && index < messages.length - 1 && (
-                <hr className="message-separator" />
-              )}
             </div>
           ))}
           <div ref={bottomRef}></div>
@@ -280,3 +216,6 @@ export default function Chat() {
     </>
   );
 }
+
+
+
