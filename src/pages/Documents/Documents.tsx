@@ -10,6 +10,7 @@ import { FetchUserCompleteProjects } from "../../services/fetchUserProjectsDone"
 import { useEffect, useState } from "react";
 import { FaCloud, FaRobot } from "react-icons/fa";
 import { IoHardwareChipOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 interface Project {
   icon: React.ElementType;
@@ -23,9 +24,16 @@ const ICON_MAP: { [key: string]: React.ElementType } = {
   GrHp: GrHp,
 };
 export default function Documents() {
+  const navigate = useNavigate();
+
   const [projects, setProjects] = useState<Project[]>([]);
   const userId = Number(localStorage.getItem("userId"));
   console.log(userId);
+  const handleProjectSelect = (projectId: number) => {
+    navigate("/chat", {
+      state: { selectedProject: { id: projectId } },
+    });
+  };
   useEffect(() => {
     const fetchCompleteProjects = async () => {
       try {
@@ -49,7 +57,7 @@ export default function Documents() {
   }, [userId]);
   return (
     <>
-      <SideBarHeader />
+      <SideBarHeader onProjectSelect={handleProjectSelect} />
       <div className="documents-container">
         <div className="documents-title">Documents</div>
         <div className="documents-items-container">

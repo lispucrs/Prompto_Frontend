@@ -102,7 +102,6 @@
           }
           .documents-document-buts {
             display: flex;
-            margin-right: 20px;
             gap: 10px;
 
             .documents-document-dots {
@@ -113,7 +112,7 @@
               }
             }
             .documents-document-trash {
-              margin-right: 20px;
+              margin-right: 12px;
               transition: 0.3s ease;
               cursor: pointer;
               &:hover {

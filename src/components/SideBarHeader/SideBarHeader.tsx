@@ -22,7 +22,9 @@ import { AiOutlineFileAdd } from "react-icons/ai";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { FetchUserProjects } from "../../services/fetchUserProjectsUnd";
 import { useNavigate } from "react-router-dom";
-
+interface SideBarHeaderProps {
+  onProjectSelect: (projectId: number) => void;
+}
 interface Step {
   idStep: number;
   nameStep: string;
@@ -43,13 +45,24 @@ interface User {
   projects: { [key: number]: Project };
 }
 
-export default function SideBarHeader() {
+export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
   const navigate = useNavigate();
   const [projectsUndone, setProjectsUndone] = useState<any[]>([]);
   const userId = Number(localStorage.getItem("userId"));
   const idteste = 2;
   console.log("idteste");
+  const handleNewProject = () => {
+    const newProject = {
+      id: Date.now(), 
+      name: "New Project",
+      steps: [],
+      idStopedStep: 0,
+    };
 
+    navigate("/chat", {
+      state: { selectedProject: newProject },
+    });
+  };
   console.log(idteste);
   useEffect(() => {
     const fetchProjects = async () => {
@@ -70,7 +83,7 @@ export default function SideBarHeader() {
               ? FaRobot
               : project.icon === "IoHardwareChipOutline"
               ? IoHardwareChipOutline
-              : FaRobot, 
+              : FaRobot,
         }));
 
         setProjectsUndone(formattedProjects);
@@ -83,18 +96,22 @@ export default function SideBarHeader() {
     fetchProjects();
   }, [userId]);
   const location = useLocation();
-  const { selectedProject: initialSelectedProject} = location.state || {};
+  const { selectedProject: initialSelectedProject } = location.state || {};
 
   const [expandedProject, setExpandedProject] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<string | null>(
     initialSelectedProject || null
   );
+  console.log("Selected project:", selectedProject); 
 
   const toggleProject = (projectName: string, projectId: number) => {
     setExpandedProject((prev) => (prev === projectName ? null : projectName));
     setSelectedProject((prev) => (prev === projectName ? null : projectName));
+    onProjectSelect(projectId);
 
-    navigate("/chat", { state: { selectedProject: { name: projectName, id: projectId } } });
+    navigate("/chat", {
+      state: { selectedProject: { name: projectName, id: projectId } },
+    });
   };
 
   return (
@@ -115,10 +132,9 @@ export default function SideBarHeader() {
           <FaMagnifyingGlass className="sidebarheader-glass" size={19} />
         </div>
         <div className="sidebarheader-quickaccess-container">
-          {/* <div className="sidebarheader-quickacess-title">Quick Access:</div> */}
           <div
             className="sidebarheader-quickacess-new-project-container"
-            // onClick={() => changeInstruction(1)}
+            onClick={handleNewProject} 
           >
             <AiOutlineFileAdd
               className="sidebarheader-quickacess-new-project-icon"
@@ -127,12 +143,10 @@ export default function SideBarHeader() {
             <div className="sidebarheader-quickacess-new-project-text">
               New Project
             </div>
-
           </div>
           <Link to="/documents">
             <div
               className="sidebarheader-quickacess-new-project-container"
-              // onClick={() => changeInstruction(1)}
             >
               <IoDocumentTextOutline
                 className="sidebarheader-quickacess-new-project-icon"
@@ -141,14 +155,11 @@ export default function SideBarHeader() {
               <div className="sidebarheader-quickacess-new-project-text">
                 Documents
               </div>
-              {/* <button onClick={toggleModal}>
-              {modalOpen ? "Close Modal" : "Open Modal"}
-            </button> */}
+              
             </div>
           </Link>
-            </div>
+        </div>
 
-        {/* <div className="sidebarheader-projects-title">Projects:</div> */}
         <div className="sidebarheader-projects-container">
           {projectsUndone.map((project) => (
             <div
@@ -180,20 +191,24 @@ export default function SideBarHeader() {
                 {expandedProject === project.name && (
                   <>
                     {project.done_steps.map((step: any, index: number) => {
-                      // Extrai a chave do objeto (stepName)
                       const stepName = Object.keys(step)[0];
 
                       return (
                         <div
                           key={index}
                           className={`sidebar-project-option ${
-                            index + 1 >= project.idStopedStep ? "incomplete" : "complete"
+                            index + 1 >= project.idStopedStep
+                              ? "incomplete"
+                              : "complete"
                           }`}
                           style={{
-                            cursor: index + 1 >= project.idStopedStep ? "pointer" : "default",
+                            cursor:
+                              index + 1 >= project.idStopedStep
+                                ? "pointer"
+                                : "default",
                           }}
                         >
-                          {stepName || `Step ${index + 1}`} {/* Mostra o stepName */}
+                          {stepName || `Step ${index + 1}`}{" "}
                         </div>
                       );
                     })}

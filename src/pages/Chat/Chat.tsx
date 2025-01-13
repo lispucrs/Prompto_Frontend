@@ -22,6 +22,7 @@ export default function Chat() {
   const { selectedProject } = location.state || {};
   const projectId = selectedProject?.id || null;
 
+  console.log("Received project:", selectedProject);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -38,7 +39,10 @@ export default function Chat() {
   const [currentMessage, setCurrentMessage] = useState("");
   const [haveText, setHaveText] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
-
+  const handleProjectSelect = (projectId: number) => {
+    setMessages([]);
+    setHaveText(false);
+  };
   const bottomRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
     if (bottomRef.current) {
@@ -81,12 +85,10 @@ export default function Chat() {
     }
   };
 
-  // Efeito para rolar até o fim quando as mensagens mudarem
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  // Prompts prontos
   const promptsLeft = [
     "Create a new project!",
     "Form a team for my project",
@@ -98,14 +100,13 @@ export default function Chat() {
     "Define the requirements for my project.",
   ];
 
-  // Função para capturar mudanças no campo de input
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCurrentMessage(e.target.value);
   };
 
   return (
     <>
-      <SideBarHeader />
+      <SideBarHeader onProjectSelect={handleProjectSelect} />
       <div className="chat-container">
         <div className="chat-title">
           Project: {selectedProject?.name || "None"}
