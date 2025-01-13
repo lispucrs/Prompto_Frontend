@@ -179,25 +179,24 @@ export default function SideBarHeader() {
               >
                 {expandedProject === project.name && (
                   <>
-                    {project.done_steps.map((step: any, index: number) => (
-                      <div
-                        key={index} // Pode usar o índice ou um identificador único
-                        className={`sidebar-project-option ${
-                          step.idStep >= project.idStopedStep
-                            ? "incomplete"
-                            : "complete"
-                        }`}
-                        style={{
-                          cursor:
-                            step.idStep >= project.idStopedStep
-                              ? "pointer"
-                              : "default",
-                        }}
-                      >
-                        {step.stepName || `Step ${index + 1}`}{" "}
-                        {/* Ajusta o nome do step */}
-                      </div>
-                    ))}
+                    {project.done_steps.map((step: any, index: number) => {
+                      // Extrai a chave do objeto (stepName)
+                      const stepName = Object.keys(step)[0];
+
+                      return (
+                        <div
+                          key={index}
+                          className={`sidebar-project-option ${
+                            index + 1 >= project.idStopedStep ? "incomplete" : "complete"
+                          }`}
+                          style={{
+                            cursor: index + 1 >= project.idStopedStep ? "pointer" : "default",
+                          }}
+                        >
+                          {stepName || `Step ${index + 1}`} {/* Mostra o stepName */}
+                        </div>
+                      );
+                    })}
                   </>
                 )}
               </div>
