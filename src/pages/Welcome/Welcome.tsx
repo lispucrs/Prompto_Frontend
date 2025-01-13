@@ -12,12 +12,14 @@ export default function Welcome() {
   console.log(localStorage.getItem("loggedIn"));
 
   const navigate = useNavigate();
-  const handleProjectSelect = (projectName: string) => {
-    navigate("/chat", { state: { selectedProject: projectName } });
+  const handleProjectSelect = (projectId: number) => {
+    navigate("/chat", {
+      state: { selectedProject: { id: projectId } },
+    });
   };
   return (
     <>
-      <SideBarHeader />
+      <SideBarHeader onProjectSelect={handleProjectSelect} />
       <div className="welcome-container">
         <div className="welcome-text-container">
           <div className="welcome-first">Welcome back,</div>
