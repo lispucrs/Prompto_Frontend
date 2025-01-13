@@ -201,12 +201,12 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
                               ? "incomplete"
                               : "complete"
                           }`}
-                          style={{
-                            cursor:
-                              index + 1 >= project.idStopedStep
-                                ? "pointer"
-                                : "default",
-                          }}
+                          // style={{
+                          //   cursor:
+                          //     index + 1 >= project.idStopedStep
+                          //       ? "pointer"
+                          //       : "default",
+                          // }}
                         >
                           {stepName || `Step ${index + 1}`}{" "}
                         </div>

@@ -188,7 +188,7 @@
       padding: 0.5rem 1rem;
       background-color: transparent;
       border-radius: 5px;
-      cursor: pointer;
+      //cursor: pointer;
       transition: color 0.3s ease;
 
       &:hover {
@@ -197,8 +197,8 @@
 
       &.disabled {
         color: #b5b5b5;
-        cursor: not-allowed;
-        pointer-events: none;
+        //cursor: not-allowed;
+        //pointer-events: none;
       }
 
       &.disabled:hover {
@@ -212,9 +212,9 @@
       &.incomplete {
         color: #ffffff;
 
-        &:hover {
-          color: #6fc9f9;
-        }
+        // &:hover {
+        //   color: #6fc9f9;
+        // }
       }
     }
 
