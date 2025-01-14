@@ -21,6 +21,7 @@ import { Link, useLocation } from "react-router-dom";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { FetchUserProjects } from "../../services/fetchUserProjectsUnd";
+import { sendMessageToNewProjectChat } from "../../services/newChat";
 import { useNavigate } from "react-router-dom";
 interface SideBarHeaderProps {
   onProjectSelect: (projectId: number) => void;
@@ -58,18 +59,30 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
   const userId = Number(localStorage.getItem("userId"));
   const idteste = 2;
   console.log("idteste");
-  const handleNewProject = () => {
-    const newProject = {
-      id: Date.now(),
-      name: "New Project",
-      steps: [],
-      idStopedStep: 0,
-    };
+  const handleNewProject = async () => {
+    try {
+      // // Dados básicos enviados ao backend
+      // const userInput = "New Project";
 
-    navigate("/chat", {
-      state: { selectedProject: newProject },
-    });
+      // // Chamada ao backend usando a função reutilizável
+      // const backendResponse = await send(userInput);
+
+      // // Dados do novo projeto retornados pelo backend
+      // const newProject = JSON.parse(backendResponse); // Supondo que o backend retorna uma string JSON
+
+      // // Atualizar o estado com o novo projeto
+      // setProjectsUndone((prev) => [...prev, newProject]);
+
+      // Navegar para a rota do chat com o novo projeto
+      navigate("/chat", {
+        state: { selectedProject: { name: "New Project", id: -1 } },
+      });
+    } catch (error) {
+      console.error("Erro ao criar o novo projeto:", error);
+      alert("Erro ao criar o novo projeto. Tente novamente.");
+    }
   };
+
   console.log(idteste);
   useEffect(() => {
     const fetchProjects = async () => {
@@ -201,7 +214,7 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
                         <div
                           key={index}
                           className={`sidebar-project-option ${
-                            index  >= project.idStopedStep
+                            index >= project.idStopedStep
                               ? "incomplete"
                               : "complete"
                           }`}
