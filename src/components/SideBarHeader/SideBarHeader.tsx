@@ -47,11 +47,11 @@ interface User {
 
 export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
   const steps = [
-    { id: 1, name: "Creation Project" },
-    { id: 2, name: "Gather Requirements" },
-    { id: 3, name: "Assemble Team" },
-    { id: 4, name: "RoadMap" },
-    { id: 5, name: "User Stories" },
+    { id: 0, name: "Creation Project" },
+    { id: 1, name: "Gather Requirements" },
+    { id: 2, name: "Assemble Team" },
+    { id: 3, name: "RoadMap" },
+    { id: 4, name: "User Stories" },
   ];
   const navigate = useNavigate();
   const [projectsUndone, setProjectsUndone] = useState<any[]>([]);
@@ -201,7 +201,7 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
                         <div
                           key={index}
                           className={`sidebar-project-option ${
-                            index + 1 >= project.idStopedStep
+                            index  >= project.idStopedStep
                               ? "incomplete"
                               : "complete"
                           }`}
@@ -212,7 +212,7 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
                           //       : "default",
                           // }}
                         >
-                          {stepName || `Step ${index + 1}`}{" "}
+                          {stepName || `Step ${index}`}{" "}
                         </div>
                       );
                     })}
