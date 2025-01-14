@@ -46,6 +46,13 @@ interface User {
 }
 
 export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
+  const steps = [
+    { id: 1, name: "Creation Project" },
+    { id: 2, name: "Gather Requirements" },
+    { id: 3, name: "Assemble Team" },
+    { id: 4, name: "RoadMap" },
+    { id: 5, name: "User Stories" },
+  ];
   const navigate = useNavigate();
   const [projectsUndone, setProjectsUndone] = useState<any[]>([]);
   const userId = Number(localStorage.getItem("userId"));
@@ -53,7 +60,7 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
   console.log("idteste");
   const handleNewProject = () => {
     const newProject = {
-      id: Date.now(), 
+      id: Date.now(),
       name: "New Project",
       steps: [],
       idStopedStep: 0,
@@ -102,7 +109,7 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
   const [selectedProject, setSelectedProject] = useState<string | null>(
     initialSelectedProject || null
   );
-  console.log("Selected project:", selectedProject); 
+  console.log("Selected project:", selectedProject);
 
   const toggleProject = (projectName: string, projectId: number) => {
     setExpandedProject((prev) => (prev === projectName ? null : projectName));
@@ -134,7 +141,7 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
         <div className="sidebarheader-quickaccess-container">
           <div
             className="sidebarheader-quickacess-new-project-container"
-            onClick={handleNewProject} 
+            onClick={handleNewProject}
           >
             <AiOutlineFileAdd
               className="sidebarheader-quickacess-new-project-icon"
@@ -145,9 +152,7 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
             </div>
           </div>
           <Link to="/documents">
-            <div
-              className="sidebarheader-quickacess-new-project-container"
-            >
+            <div className="sidebarheader-quickacess-new-project-container">
               <IoDocumentTextOutline
                 className="sidebarheader-quickacess-new-project-icon"
                 size={25}
@@ -155,7 +160,6 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
               <div className="sidebarheader-quickacess-new-project-text">
                 Documents
               </div>
-              
             </div>
           </Link>
         </div>
@@ -212,6 +216,12 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
                         </div>
                       );
                     })}
+                    {project.idStopedStep && (
+                      <div className="sidebar-project-option incomplete">
+                        {steps.find((s) => s.id === project.idStopedStep)
+                          ?.name || "Step Name Not Found"}
+                      </div>
+                    )}
                   </>
                 )}
               </div>
