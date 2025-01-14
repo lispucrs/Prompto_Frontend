@@ -109,7 +109,7 @@ export default function Chat() {
       <SideBarHeader onProjectSelect={handleProjectSelect} />
       <div className="chat-container">
         <div className="chat-title">
-          Project: {selectedProject?.name || "None"}
+          {selectedProject?.name || "None"}
         </div>
 
         {!haveText && (

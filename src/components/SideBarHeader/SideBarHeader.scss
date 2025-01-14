@@ -21,7 +21,7 @@
   }
 
   .sidebarheader-line-logo-hide {
-    height: 10%;
+    min-height: 10%;
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -44,7 +44,7 @@
     border-radius: 15px;
     width: 260px;
     border: 1px solid rgba(245, 245, 245, 0.212);
-    height: 41px;
+    min-height: 41px;
     margin-bottom: 45px;
 
     .sidebarheader-search {
@@ -190,7 +190,7 @@
       border-radius: 5px;
       //cursor: pointer;
       transition: color 0.3s ease;
-
+      font-size: 16px;
       &:hover {
         color: #6fc9f9;
       }
@@ -206,12 +206,11 @@
       }
 
       &.complete {
-        color: rgb(123, 123, 123);
+        color: rgb(172, 172, 172);
       }
 
       &.incomplete {
-        color: #ffffff;
-
+        color: #6fc9f9;
         // &:hover {
         //   color: #6fc9f9;
         // }
@@ -272,5 +271,6 @@
   .logosidebar {
     margin-top: auto;
     margin-bottom: 20px;
+    padding-top: 30px;
   }
 }
