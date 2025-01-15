@@ -185,12 +185,17 @@
     }
 
     .sidebar-project-option {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 5px;
       padding: 0.5rem 1rem;
       background-color: transparent;
       border-radius: 5px;
       //cursor: pointer;
       transition: color 0.3s ease;
-      font-size: 16px;
+      font-size: 15px;
+
       &:hover {
         color: #6fc9f9;
       }
@@ -210,6 +215,7 @@
       }
 
       &.incomplete {
+        padding-left: 15px;
         color: #6fc9f9;
         // &:hover {
         //   color: #6fc9f9;

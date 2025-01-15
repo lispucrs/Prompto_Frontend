@@ -1,5 +1,3 @@
-
-
 import SideBarHeader from "../../components/SideBarHeader/SideBarHeader";
 import Profile from "../../components/Profile/Profile";
 import "./Chat.scss";
@@ -17,7 +15,6 @@ type Message = {
 };
 
 export default function Chat() {
-
   const location = useLocation();
   const { selectedProject } = location.state || {};
   const projectId = selectedProject?.id || null;
@@ -39,9 +36,18 @@ export default function Chat() {
   const [currentMessage, setCurrentMessage] = useState("");
   const [haveText, setHaveText] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
-  const handleProjectSelect = (projectId: number) => {
-    setMessages([]);
+  const [stoppedStep, setStoppedStep] = useState<number | null>(null); // Estado para o idStopedStep
+
+  const handleProjectSelect = ({
+    projectId,
+    idStopedStep,
+  }: {
+    projectId: number;
+    idStopedStep: number;
+  }) => {
+    setMessages([]); // Reinicia as mensagens ao selecionar um novo projeto
     setHaveText(false);
+    setStoppedStep(idStopedStep); // Salva o idStopedStep no estado, se necessário
   };
   const bottomRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
@@ -89,16 +95,37 @@ export default function Chat() {
     scrollToBottom();
   }, [messages]);
 
-  const promptsLeft = [
-    "Create a new project!",
-    "Form a team for my project",
-    "Create user stories to base my new project!",
-  ];
-  const promptsRight = [
-    "I want to create a new project",
-    "How can I distribute tasks to my team?",
-    "Define the requirements for my project.",
-  ];
+  const promptsByStep: { [key: number]: string[] } = {
+    0: ["Create a new project!", "Start my new project!"],
+    1: ["Gather requirements.", "List requirements for my project."],
+    2: [
+      "Form a team with the required skill set.",
+      "Assign roles and responsibilities to team members.",
+    ],
+    3: ["Plan the roadmap for the project.", "Define roadmap."],
+    4: [
+      "Create user stories based on my project.",
+      "Organize user stories for my project.",
+    ],
+  };
+
+  // Função para obter prompts com base no idStopedStep
+  const getPromptsForStep = (step: number) => {
+    return promptsByStep[step] || ["No specific prompts for this step."];
+  };
+
+  // No componente Chat
+  const [promptsLeft, setPromptsLeft] = useState<string[]>([]);
+  const [promptsRight, setPromptsRight] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (stoppedStep) {
+      const stepPrompts = getPromptsForStep(stoppedStep);
+      // Divida as prompts entre esquerda e direita
+      setPromptsLeft(stepPrompts.slice(0, stepPrompts.length / 2));
+      setPromptsRight(stepPrompts.slice(stepPrompts.length / 2));
+    }
+  }, [stoppedStep]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCurrentMessage(e.target.value);
@@ -108,13 +135,11 @@ export default function Chat() {
     <>
       <SideBarHeader onProjectSelect={handleProjectSelect} />
       <div className="chat-container">
-        <div className="chat-title">
-          {selectedProject?.name || "None"}
-        </div>
+        <div className="chat-title">{selectedProject?.name || "None"}</div>
 
         {!haveText && (
           <>
-            <div className="ready-prompts-title">Ready Prompts</div>
+            <div className="ready-prompts-title">Suggested Prompts</div>
             <div className="chat-prompts-container">
               <div className="chat-prompts-left">
                 <ul>
@@ -217,6 +242,3 @@ export default function Chat() {
     </>
   );
 }
-
-
-

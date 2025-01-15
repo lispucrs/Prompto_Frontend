@@ -62,6 +62,7 @@
     font-size: 18px;
     color: #03256c;
     align-self: center;
+    text-align: center;
   }
   .chat-prompts-container {
     margin-top: 10px;
@@ -77,6 +78,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding-top: 30px;
+
 
       ul {
         list-style: none;

@@ -59,7 +59,10 @@ export default function Documents() {
     <>
       <SideBarHeader onProjectSelect={handleProjectSelect} />
       <div className="documents-container">
-        <div className="documents-title">Documents</div>
+        <div className="documents-title">Finished Projects</div>
+        <div className="documents-subtitle">
+          Here’s a list of your finished projects
+        </div>
         <div className="documents-items-container">
           <div className="documents-filters-container">
             <RxHamburgerMenu

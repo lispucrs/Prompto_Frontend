@@ -23,8 +23,15 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import { FetchUserProjects } from "../../services/fetchUserProjectsUnd";
 import { sendMessageToNewProjectChat } from "../../services/newChat";
 import { useNavigate } from "react-router-dom";
+import { FaCheckCircle } from "react-icons/fa";
+import { RiProgress5Line } from "react-icons/ri";
+import { IoCloseCircle } from "react-icons/io5";
+
 interface SideBarHeaderProps {
-  onProjectSelect: (projectId: number) => void;
+  onProjectSelect: (projectData: {
+    projectId: number;
+    idStopedStep: number;
+  }) => void;
 }
 interface Step {
   idStep: number;
@@ -122,12 +129,12 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
   const [selectedProject, setSelectedProject] = useState<string | null>(
     initialSelectedProject || null
   );
-  console.log("Selected project:", selectedProject);
+  console.log("Selected project:tt", selectedProject);
 
-  const toggleProject = (projectName: string, projectId: number) => {
+  const toggleProject = (projectName: string, projectId: number, idStopedStep: number) => {
     setExpandedProject((prev) => (prev === projectName ? null : projectName));
     setSelectedProject((prev) => (prev === projectName ? null : projectName));
-    onProjectSelect(projectId);
+    onProjectSelect({ projectId, idStopedStep });
 
     navigate("/chat", {
       state: { selectedProject: { name: projectName, id: projectId } },
@@ -171,7 +178,7 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
                 size={25}
               />
               <div className="sidebarheader-quickacess-new-project-text">
-                Documents
+                Finished Projects
               </div>
             </div>
           </Link>
@@ -189,8 +196,8 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
                 className={`sidebarheader-projects-new-project-container ${
                   selectedProject === project.name ? "selected" : ""
                 }`}
-                onClick={() => toggleProject(project.name, project.id)}
-              >
+                onClick={() => toggleProject(project.name, project.id, project.idStopedStep)}
+                >
                 <project.icone
                   className="sidebarheader-projects-new-project-icon"
                   size={25}
@@ -225,12 +232,15 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
                           //       : "default",
                           // }}
                         >
-                          {stepName || `Step ${index}`}{" "}
+                          <FaCheckCircle size={15} />
+                          {stepName || `Step ${index}`}
                         </div>
                       );
                     })}
                     {project.idStopedStep && (
                       <div className="sidebar-project-option incomplete">
+                        <RiProgress5Line size={18} />
+
                         {steps.find((s) => s.id === project.idStopedStep)
                           ?.name || "Step Name Not Found"}
                       </div>
