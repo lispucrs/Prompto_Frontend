@@ -68,6 +68,8 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
   console.log("idteste");
   const handleNewProject = async () => {
     try {
+      setExpandedProject(null);
+      setSelectedProject(null);
       navigate("/chat", {
         state: { selectedProject: { name: "New Project", id: -1 } },
       });
