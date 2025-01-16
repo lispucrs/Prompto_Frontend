@@ -46,7 +46,7 @@ export default function Documents() {
         const formattedProjects = data.map((project: any) => ({
           icon: ICON_MAP[project.icon] || GrHp,
           name: project.name || "Unnamed Project",
-          project_id: project.project_id, 
+          project_id: project.project_id,
           createdDate: project.created_at ? new Date(project.created_at) : null,
         }));
 
@@ -108,8 +108,12 @@ export default function Documents() {
                       : "No Date Provided"}
                   </div>
                   <div className="documents-document-buts">
-                    <GoDownload size={26} className="documents-document-dots"                       onClick={() => handleDownload(doc.project_id)} />
-                    
+                    <GoDownload
+                      size={26}
+                      className="documents-document-dots"
+                      onClick={() => handleDownload(doc.project_id)}
+                    />
+
                     <GoTrash size={26} className="documents-document-trash" />
                   </div>
                 </div>
