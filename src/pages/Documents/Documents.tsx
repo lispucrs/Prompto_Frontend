@@ -11,11 +11,13 @@ import { useEffect, useState } from "react";
 import { FaCloud, FaRobot } from "react-icons/fa";
 import { IoHardwareChipOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { DownloadPDF } from "../../services/downloadService";
 
 interface Project {
   icon: React.ElementType;
   name: string;
   createdDate: Date;
+  project_id: number;
 }
 const ICON_MAP: { [key: string]: React.ElementType } = {
   FaRobot: FaRobot,
@@ -44,6 +46,7 @@ export default function Documents() {
         const formattedProjects = data.map((project: any) => ({
           icon: ICON_MAP[project.icon] || GrHp,
           name: project.name || "Unnamed Project",
+          project_id: project.project_id, 
           createdDate: project.created_at ? new Date(project.created_at) : null,
         }));
 
@@ -55,6 +58,26 @@ export default function Documents() {
 
     fetchCompleteProjects();
   }, [userId]);
+  const handleDownload = async (projectId: number) => {
+    try {
+      console.log("Iniciando download do PDF para o projeto:", projectId);
+      const pdfBlob = await DownloadPDF.downloadPDF(projectId);
+
+      // Cria uma URL temporária para o blob
+      const url = window.URL.createObjectURL(pdfBlob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `project_${projectId}.pdf`; // nome do arquivo
+      document.body.appendChild(link);
+      link.click();
+
+      // Limpa o link temporário
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Erro no download do PDF:", error);
+    }
+  };
   return (
     <>
       <SideBarHeader onProjectSelect={handleProjectSelect} />
@@ -85,7 +108,8 @@ export default function Documents() {
                       : "No Date Provided"}
                   </div>
                   <div className="documents-document-buts">
-                    <GoDownload size={26} className="documents-document-dots" />
+                    <GoDownload size={26} className="documents-document-dots"                       onClick={() => handleDownload(doc.project_id)} />
+                    
                     <GoTrash size={26} className="documents-document-trash" />
                   </div>
                 </div>
