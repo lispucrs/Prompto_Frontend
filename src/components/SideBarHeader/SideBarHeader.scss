@@ -114,6 +114,9 @@
       &:hover {
         color: #6fc9f9;
       }
+      &.selected {
+        color: #6fc9f9;
+      }
       .sidebarheader-quickacess-new-project-icon {
         cursor: pointer;
       }

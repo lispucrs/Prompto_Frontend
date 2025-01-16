@@ -32,9 +32,7 @@ interface SideBarHeaderProps {
     projectId: number;
     idStopedStep: number;
   }) => void;
-  onNewProjectClick: () => void; // Nova função para redefinir o chat
 }
-
 interface Step {
   idStep: number;
   nameStep: string;
@@ -55,7 +53,7 @@ interface User {
   projects: { [key: number]: Project };
 }
 
-export default function SideBarHeader({ onProjectSelect, onNewProjectClick }: SideBarHeaderProps) {
+export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
   const steps = [
     { id: 0, name: "Creation Project" },
     { id: 1, name: "Gather Requirements" },
@@ -70,7 +68,6 @@ export default function SideBarHeader({ onProjectSelect, onNewProjectClick }: Si
   console.log("idteste");
   const handleNewProject = async () => {
     try {
-      onNewProjectClick(); // Redefine o chat e exibe os prompts de criação
       navigate("/chat", {
         state: { selectedProject: { name: "New Project", id: -1 } },
       });
@@ -79,7 +76,6 @@ export default function SideBarHeader({ onProjectSelect, onNewProjectClick }: Si
       alert("Erro ao criar o novo projeto. Tente novamente.");
     }
   };
-  
 
   console.log(idteste);
   useEffect(() => {
@@ -122,7 +118,11 @@ export default function SideBarHeader({ onProjectSelect, onNewProjectClick }: Si
   );
   console.log("Selected project:tt", selectedProject);
 
-  const toggleProject = (projectName: string, projectId: number, idStopedStep: number) => {
+  const toggleProject = (
+    projectName: string,
+    projectId: number,
+    idStopedStep: number
+  ) => {
     setExpandedProject((prev) => (prev === projectName ? null : projectName));
     setSelectedProject((prev) => (prev === projectName ? null : projectName));
     onProjectSelect({ projectId, idStopedStep });
@@ -187,8 +187,10 @@ export default function SideBarHeader({ onProjectSelect, onNewProjectClick }: Si
                 className={`sidebarheader-projects-new-project-container ${
                   selectedProject === project.name ? "selected" : ""
                 }`}
-                onClick={() => toggleProject(project.name, project.id, project.idStopedStep)}
-                >
+                onClick={() =>
+                  toggleProject(project.name, project.id, project.idStopedStep)
+                }
+              >
                 <project.icone
                   className="sidebarheader-projects-new-project-icon"
                   size={25}
