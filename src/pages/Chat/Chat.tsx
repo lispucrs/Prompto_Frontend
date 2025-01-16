@@ -37,6 +37,11 @@ export default function Chat() {
   const [haveText, setHaveText] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
   const [stoppedStep, setStoppedStep] = useState<number | null>(null); // Estado para o idStopedStep
+  const handleNewProjectClick = () => {
+    setMessages([]); // Zera as mensagens
+    setHaveText(false); // Define como sem texto
+    setStoppedStep(0); // Define o passo inicial como "Create Project"
+  };
 
   const handleProjectSelect = ({
     projectId,
@@ -133,7 +138,10 @@ export default function Chat() {
 
   return (
     <>
-      <SideBarHeader onProjectSelect={handleProjectSelect} />
+      <SideBarHeader
+        onProjectSelect={handleProjectSelect}
+        onNewProjectClick={handleNewProjectClick}
+      />
       <div className="chat-container">
         <div className="chat-title">{selectedProject?.name || "None"}</div>
 

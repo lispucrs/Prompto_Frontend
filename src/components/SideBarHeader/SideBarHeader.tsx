@@ -32,7 +32,9 @@ interface SideBarHeaderProps {
     projectId: number;
     idStopedStep: number;
   }) => void;
+  onNewProjectClick: () => void; // Nova função para redefinir o chat
 }
+
 interface Step {
   idStep: number;
   nameStep: string;
@@ -53,7 +55,7 @@ interface User {
   projects: { [key: number]: Project };
 }
 
-export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
+export default function SideBarHeader({ onProjectSelect, onNewProjectClick }: SideBarHeaderProps) {
   const steps = [
     { id: 0, name: "Creation Project" },
     { id: 1, name: "Gather Requirements" },
@@ -68,19 +70,7 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
   console.log("idteste");
   const handleNewProject = async () => {
     try {
-      // // Dados básicos enviados ao backend
-      // const userInput = "New Project";
-
-      // // Chamada ao backend usando a função reutilizável
-      // const backendResponse = await send(userInput);
-
-      // // Dados do novo projeto retornados pelo backend
-      // const newProject = JSON.parse(backendResponse); // Supondo que o backend retorna uma string JSON
-
-      // // Atualizar o estado com o novo projeto
-      // setProjectsUndone((prev) => [...prev, newProject]);
-
-      // Navegar para a rota do chat com o novo projeto
+      onNewProjectClick(); // Redefine o chat e exibe os prompts de criação
       navigate("/chat", {
         state: { selectedProject: { name: "New Project", id: -1 } },
       });
@@ -89,6 +79,7 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
       alert("Erro ao criar o novo projeto. Tente novamente.");
     }
   };
+  
 
   console.log(idteste);
   useEffect(() => {
