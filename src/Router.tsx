@@ -17,14 +17,14 @@ export default function Router() {
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem("loggedIn");
 
-  useEffect(() => {
-    console.log("isLoggedIn");
-    console.log(isLoggedIn);
+  // useEffect(() => {
+  //   console.log("isLoggedIn");
+  //   console.log(isLoggedIn);
 
-    if (isLoggedIn) {
-      navigate("/welcome");
-    }
-  }, [navigate]);
+  //   if (isLoggedIn) {
+  //     navigate("/welcome");
+  //   }
+  // }, [navigate]);
   useEffect(() => {
     if (location.pathname === "/home") {
       document.body.classList.add("home-page");
@@ -57,12 +57,14 @@ export default function Router() {
           <Route path="/documents" element={<Documents />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/welcome" element={<Welcome />} />
-          {!isLoggedIn && (
+          {isLoggedIn ? (
+            <Route path="*" element={<Navigate to="/welcome" replace />} />
+          ) : (
             <Route path="/*" element={<Navigate to="/home" replace />} />
           )}
-          {isLoggedIn && (
+          {/* {isLoggedIn && (
             <Route path="/*" element={<Navigate to="/welcome" replace />} />
-          )}
+          )} */}
         </Routes>
       </div>
     </div>

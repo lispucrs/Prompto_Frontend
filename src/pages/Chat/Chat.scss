@@ -34,7 +34,17 @@
   border-radius: 4px;
   cursor: pointer;
 }
-
+.chat-refreshbutton {
+  position: absolute;
+  bottom: 21px;
+  left: 335px;
+  color: #03256c;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  &:hover {
+    color: #647aaa;
+  }
+}
 .chat-container {
   display: flex;
   flex-direction: column;
@@ -79,7 +89,6 @@
       flex-direction: column;
       align-items: center;
       padding-top: 30px;
-
 
       ul {
         list-style: none;
