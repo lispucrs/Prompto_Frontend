@@ -16,7 +16,14 @@ export default function Router() {
   const location = useLocation();
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem("loggedIn");
+  function PrivateRoute({ children, isLoggedIn }) {
+    return isLoggedIn ? children : <Navigate to="/login" replace />;
+  }
 
+  // Componente para proteger as rotas públicas
+  function PublicRoute({ children, isLoggedIn }) {
+    return isLoggedIn ? <Navigate to="/welcome" replace /> : children;
+  }
   // useEffect(() => {
   //   console.log("isLoggedIn");
   //   console.log(isLoggedIn);
@@ -52,19 +59,47 @@ export default function Router() {
         }`}
       >
         <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/documents" element={<Documents />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/welcome" element={<Welcome />} />
-          {isLoggedIn ? (
-            <Route path="*" element={<Navigate to="/welcome" replace />} />
-          ) : (
-            <Route path="/*" element={<Navigate to="/home" replace />} />
-          )}
-          {/* {isLoggedIn && (
-            <Route path="/*" element={<Navigate to="/welcome" replace />} />
-          )} */}
+          <Route
+            path="/home"
+            element={
+              <PublicRoute isLoggedIn={isLoggedIn}>
+                <Home />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute isLoggedIn={isLoggedIn}>
+                <Login />
+              </PublicRoute>
+            }
+          />
+
+          {/* Rotas privadas */}
+          <Route
+            path="/welcome"
+            element={
+              <PrivateRoute isLoggedIn={isLoggedIn}>
+                <Welcome />
+              </PrivateRoute>
+            }
+          />
+          {isLoggedIn && <Route path="/chat" element={<Chat />} />}
+          <Route
+            path="/documents"
+            element={
+              <PrivateRoute isLoggedIn={isLoggedIn}>
+                <Documents />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <Navigate to={isLoggedIn ? "/welcome" : "/home"} replace />
+            }
+          />
         </Routes>
       </div>
     </div>
