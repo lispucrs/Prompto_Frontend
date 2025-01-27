@@ -7,16 +7,28 @@ import { FaCloud } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { IoArrowForward } from "react-icons/io5";
 import SideBarHeader from "../../components/SideBarHeader/SideBarHeader";
+import { useEffect } from "react";
 
 export default function Welcome() {
   console.log(localStorage.getItem("loggedIn"));
 
   const navigate = useNavigate();
+  // useEffect(() => {
+  //   const isLoggedIn = localStorage.getItem("loggedIn");
+  //   console.log("isLoggedIn");
+  //   console.log(isLoggedIn);
+
+  //   if (isLoggedIn) {
+  //     navigate("/welcome");
+  //   }
+  // }, [navigate]);
   const handleProjectSelect = (projectId: number) => {
     navigate("/chat", {
       state: { selectedProject: { id: projectId } },
     });
   };
+
+  
   return (
     <>
       <SideBarHeader onProjectSelect={handleProjectSelect} />

@@ -16,15 +16,15 @@ export default function Login() {
   const [shake, setShake] = useState(false);
   console.log(localStorage.getItem("loggedIn"));
 
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem("loggedIn");
-    console.log("isLoggedIn");
-    console.log(isLoggedIn);
+  // useEffect(() => {
+  //   const isLoggedIn = localStorage.getItem("loggedIn");
+  //   console.log("isLoggedIn");
+  //   console.log(isLoggedIn);
 
-    if (isLoggedIn) {
-      navigate("/welcome");
-    }
-  }, [navigate]);
+  //   if (isLoggedIn) {
+  //     navigate("/welcome");
+  //   }
+  // }, [navigate]);
 
   const handlePasswordVision = () => {
     setIsPasswordVisible(!isPasswordVisible);

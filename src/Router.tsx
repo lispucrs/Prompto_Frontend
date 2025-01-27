@@ -6,6 +6,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import Documents from "./pages/Documents/Documents";
@@ -13,7 +14,17 @@ import Chat from "./pages/Chat/Chat";
 import Welcome from "./pages/Welcome/Welcome";
 export default function Router() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem("loggedIn");
 
+  useEffect(() => {
+    console.log("isLoggedIn");
+    console.log(isLoggedIn);
+
+    if (isLoggedIn) {
+      navigate("/welcome");
+    }
+  }, [navigate]);
   useEffect(() => {
     if (location.pathname === "/home") {
       document.body.classList.add("home-page");
@@ -46,9 +57,12 @@ export default function Router() {
           <Route path="/documents" element={<Documents />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/welcome" element={<Welcome />} />
-
-
-          <Route path="/*" element={<Navigate to="/home" replace />} />
+          {!isLoggedIn && (
+            <Route path="/*" element={<Navigate to="/home" replace />} />
+          )}
+          {isLoggedIn && (
+            <Route path="/*" element={<Navigate to="/welcome" replace />} />
+          )}
         </Routes>
       </div>
     </div>
