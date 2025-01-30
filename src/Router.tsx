@@ -20,18 +20,10 @@ export default function Router() {
     return isLoggedIn ? children : <Navigate to="/login" replace />;
   }
 
-  // Componente para proteger as rotas públicas
   function PublicRoute({ children, isLoggedIn }) {
     return isLoggedIn ? <Navigate to="/welcome" replace /> : children;
   }
-  // useEffect(() => {
-  //   console.log("isLoggedIn");
-  //   console.log(isLoggedIn);
-
-  //   if (isLoggedIn) {
-  //     navigate("/welcome");
-  //   }
-  // }, [navigate]);
+ 
   useEffect(() => {
     if (location.pathname === "/home") {
       document.body.classList.add("home-page");

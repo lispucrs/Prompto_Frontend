@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { sendMessageToBackend } from "../../services/chatService";
 import { useCallback } from "react";
+import { EventSourceService } from "../../services/eventSourceService";
 
 type Message = {
   text: string;
@@ -16,11 +17,12 @@ type Message = {
 };
 
 export default function Chat() {
+
   const location = useLocation();
   const { selectedProject } = location.state || {};
   const projectId = selectedProject?.id || null;
+  
 
-  console.log("Received project:", selectedProject);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -106,9 +108,7 @@ export default function Chat() {
     "Generate RoadMap for my project",
     "Make some user stories for my project!",
   ];
-  console.log("selectedProject.id", selectedProject.id);
 
-  console.log("stoppedStep", stoppedStep);
   useEffect(() => {
     if (selectedProject?.id === -1) {
       setStoppedStep(0);

@@ -30,7 +30,6 @@ export default function Documents() {
 
   const [projects, setProjects] = useState<Project[]>([]);
   const userId = Number(localStorage.getItem("userId"));
-  console.log(userId);
   const handleProjectSelect = (projectId: number) => {
     navigate("/chat", {
       state: { selectedProject: { id: projectId } },
@@ -60,7 +59,6 @@ export default function Documents() {
   }, [userId]);
   const handleDownload = async (projectId: number) => {
     try {
-      console.log("Iniciando download do PDF para o projeto:", projectId);
       const pdfBlob = await DownloadPDF.downloadPDF(projectId);
 
       // Cria uma URL temporária para o blob

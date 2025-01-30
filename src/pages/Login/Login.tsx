@@ -14,17 +14,8 @@ export default function Login() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [error, setError] = useState("");
   const [shake, setShake] = useState(false);
-  console.log(localStorage.getItem("loggedIn"));
 
-  // useEffect(() => {
-  //   const isLoggedIn = localStorage.getItem("loggedIn");
-  //   console.log("isLoggedIn");
-  //   console.log(isLoggedIn);
-
-  //   if (isLoggedIn) {
-  //     navigate("/welcome");
-  //   }
-  // }, [navigate]);
+ 
 
   const handlePasswordVision = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -33,9 +24,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const userId = await login(email, password);
-      console.log("userId");
 
-      console.log(userId);
       if (userId != "") {
         // Armazena o estado de login e o ID do usuário no localStorage
         localStorage.setItem("loggedIn", "true");

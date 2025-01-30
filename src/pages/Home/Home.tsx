@@ -10,15 +10,7 @@ import React, { useState, useEffect } from "react";
 export default function Home() {
   const navigate = useNavigate();
   const [showScrollTopButton, setShowScrollTopButton] = useState(false);
-  // useEffect(() => {
-  //   const isLoggedIn = localStorage.getItem("loggedIn");
-  //   console.log("isLoggedIn");
-  //   console.log(isLoggedIn);
-
-  //   if (isLoggedIn) {
-  //     navigate("/welcome");
-  //   }
-  // }, [navigate]);
+ 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {

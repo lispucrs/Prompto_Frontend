@@ -1,31 +1,19 @@
-//import { IconButton, InputAdornment, TextField } from "@mui/material";
 import "./SideBarHeader.scss";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-// import { AiOutlineFileAdd } from "react-icons/ai";
 import { useEffect, useState } from "react";
-// import Modal from "../Modal/Modal";
-// import { LuClipboardList } from "react-icons/lu";
-// import { RiTeamLine } from "react-icons/ri";
 import Logo from "../Logo/Logo";
 import { FaRobot } from "react-icons/fa";
 import { IoHardwareChipOutline } from "react-icons/io5";
-import { FaCloud } from "react-icons/fa";
-import { GrHp } from "react-icons/gr";
-// import { SiHp } from "react-icons/si";
-// import { FaPython } from "react-icons/fa";
 
-// interface SideBarHeaderProps {
-//   onInstructionChange: (instruction: number) => void;
-// }
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { FetchUserProjects } from "../../services/fetchUserProjectsUnd";
-import { sendMessageToNewProjectChat } from "../../services/newChat";
 import { useNavigate } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 import { RiProgress5Line } from "react-icons/ri";
 import { IoCloseCircle } from "react-icons/io5";
+import { EventSourceService } from "../../services/eventSourceService";
 
 interface SideBarHeaderProps {
   onProjectSelect: (projectData: {
@@ -54,6 +42,7 @@ interface User {
 }
 
 export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
+
   const steps = [
     { id: 0, name: "Creation Project" },
     { id: 1, name: "Gather Requirements" },
@@ -64,8 +53,6 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
   const navigate = useNavigate();
   const [projectsUndone, setProjectsUndone] = useState<any[]>([]);
   const userId = Number(localStorage.getItem("userId"));
-  const idteste = 2;
-  console.log("idteste");
   const handleNewProject = async () => {
     try {
       setExpandedProject(null);
@@ -79,7 +66,6 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
     }
   };
 
-  console.log(idteste);
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -103,7 +89,6 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
         }));
 
         setProjectsUndone(formattedProjects);
-        console.log(formattedProjects);
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
@@ -111,6 +96,58 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
 
     fetchProjects();
   }, [userId]);
+  
+
+  useEffect(() => {
+
+
+    const fetchProjectsAgain = async () => {
+      try {
+        const data = await FetchUserProjects.getProjects(userId);
+  
+        const formattedProjects = data.map((project: any) => ({
+          ...project,
+          id: project.project_id,
+          steps: project.done_steps.map((step: any, index: number) => ({
+            idStep: index + 1,
+            nameStep: `Step ${index + 1}`,
+            info: step[Object.keys(step)[0]] || "No info",
+          })),
+          idStopedStep: project.next_step,
+          icone:
+            project.icon === "FaRobot"
+              ? FaRobot
+              : project.icon === "IoHardwareChipOutline"
+              ? IoHardwareChipOutline
+              : FaRobot,
+        }));
+  
+        setProjectsUndone(formattedProjects);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
+
+
+
+
+    // Conecta ao SSE para receber mensagens
+    const eventSource = EventSourceService.listenForUpdates(
+      (message) => {
+        console.log("Mensagem recebida via SSE:", message); 
+        fetchProjectsAgain();
+      },
+      () => {
+        console.error("Erro na conexão SSE."); // Imprime erro no console se a conexão falhar
+      }
+    );
+
+    // Limpa o EventSource ao desmontar o componente
+    return () => {
+      eventSource.close();
+    };
+  }, [userId]);
+  
   const location = useLocation();
   const { selectedProject: initialSelectedProject } = location.state || {};
 
@@ -118,7 +155,6 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
   const [selectedProject, setSelectedProject] = useState<string | null>(
     initialSelectedProject || null
   );
-  console.log("Selected project:tt", selectedProject);
 
   const toggleProject = (
     projectName: string,

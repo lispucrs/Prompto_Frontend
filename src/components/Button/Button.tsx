@@ -64,7 +64,6 @@ const Button: React.FC<ButtonProps> = ({
     </Tooltip>
     
   );
-  console.log(buttonClasses); 
 
 };
 
