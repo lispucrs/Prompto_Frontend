@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Logo from "../Logo/Logo";
 import { FaRobot } from "react-icons/fa";
 import { IoHardwareChipOutline } from "react-icons/io5";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineFileAdd } from "react-icons/ai";
@@ -42,7 +44,6 @@ interface User {
 }
 
 export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
-
   const steps = [
     { id: 0, name: "Creation Project" },
     { id: 1, name: "Gather Requirements" },
@@ -96,15 +97,12 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
 
     fetchProjects();
   }, [userId]);
-  
 
   useEffect(() => {
-
-
     const fetchProjectsAgain = async () => {
       try {
         const data = await FetchUserProjects.getProjects(userId);
-  
+
         const formattedProjects = data.map((project: any) => ({
           ...project,
           id: project.project_id,
@@ -121,21 +119,25 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
               ? IoHardwareChipOutline
               : FaRobot,
         }));
-  
+
         setProjectsUndone(formattedProjects);
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
     };
 
-
-
-
     // Conecta ao SSE para receber mensagens
     const eventSource = EventSourceService.listenForUpdates(
       (message) => {
-        console.log("Mensagem recebida via SSE:", message); 
+        console.log("Mensagem recebida via SSE:", message);
         fetchProjectsAgain();
+        console.log("MESSI", message);
+        if (message.includes("project_updated_created")) {
+          toast.success(
+            "Your project has been created. You can check it in the Sidebar."
+          );
+          navigate("/welcome");
+        }
       },
       () => {
         console.error("Erro na conexão SSE."); // Imprime erro no console se a conexão falhar
@@ -146,8 +148,8 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
     return () => {
       eventSource.close();
     };
-  }, [userId]);
-  
+  }, [navigate, userId]);
+
   const location = useLocation();
   const { selectedProject: initialSelectedProject } = location.state || {};
 

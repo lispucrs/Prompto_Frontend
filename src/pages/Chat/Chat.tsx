@@ -17,12 +17,9 @@ type Message = {
 };
 
 export default function Chat() {
-
   const location = useLocation();
   const { selectedProject } = location.state || {};
   const projectId = selectedProject?.id || null;
-  
-
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
