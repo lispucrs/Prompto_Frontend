@@ -12,6 +12,7 @@ import Login from "./pages/Login/Login";
 import Documents from "./pages/Documents/Documents";
 import Chat from "./pages/Chat/Chat";
 import Welcome from "./pages/Welcome/Welcome";
+import Onboarding from "./pages/Onboarding/Onboarding";
 export default function Router() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -86,6 +87,8 @@ export default function Router() {
               </PrivateRoute>
             }
           />
+          {isLoggedIn && <Route path="/onboarding" element={<Onboarding />} />}
+
           <Route
             path="*"
             element={

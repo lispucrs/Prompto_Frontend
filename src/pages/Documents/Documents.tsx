@@ -4,7 +4,7 @@ import "./Documents.scss";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { CiGrid41 } from "react-icons/ci";
 import { GrHp } from "react-icons/gr";
-import { BsThreeDots } from "react-icons/bs";
+import { BsFillChatTextFill, BsThreeDots } from "react-icons/bs";
 import { GoDownload, GoTrash } from "react-icons/go";
 import { FetchUserCompleteProjects } from "../../services/fetchUserProjectsDone"; // Importa a classe
 import { useEffect, useState } from "react";
@@ -76,6 +76,12 @@ export default function Documents() {
       console.error("Erro no download do PDF:", error);
     }
   };
+
+  const handleOnboarding = async (projectId: number, projectName: string) => {
+    navigate("/onboarding", {
+      state: { selectedProject: { id: projectId, name: projectName } },
+    });
+  };
   return (
     <>
       <SideBarHeader onProjectSelect={handleProjectSelect} />
@@ -106,6 +112,12 @@ export default function Documents() {
                       : "No Date Provided"}
                   </div>
                   <div className="documents-document-buts">
+                    <BsFillChatTextFill
+                      size={25}
+                      className="documents-document-dots"
+                      onClick={() => handleOnboarding(doc.project_id, doc.name)}
+                    />
+
                     <GoDownload
                       size={26}
                       className="documents-document-dots"
