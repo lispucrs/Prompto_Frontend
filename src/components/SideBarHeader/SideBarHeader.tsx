@@ -66,7 +66,11 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
       alert("Erro ao criar o novo projeto. Tente novamente.");
     }
   };
+  const [searchTerm, setSearchTerm] = useState("");
 
+  const filteredProjects = projectsUndone.filter((project) =>
+    project.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -185,7 +189,8 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
             id="inputField"
             placeholder="Search Project"
             className="sidebarheader-search"
-            onKeyDown={(e) => e.key === "Enter"}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <FaMagnifyingGlass className="sidebarheader-glass" size={19} />
         </div>
@@ -216,7 +221,7 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
         </div>
 
         <div className="sidebarheader-projects-container">
-          {projectsUndone.map((project) => (
+          {filteredProjects.map((project) => (
             <div
               className={`sidebarheader-projects-new-project-containerSelected ${
                 selectedProject === project.name ? "selected" : ""

@@ -82,7 +82,7 @@ export default function Chat() {
         prev
           .filter((msg) => msg.sender !== "bot-loading")
           .concat({
-            text: "Failed to get a response from the assistant.",
+            text: "Failed to get a response from the assistant. Try resending the message. ",
             sender: "bot",
           })
       );
