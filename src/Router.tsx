@@ -26,7 +26,7 @@ export default function Router() {
   }
  
   useEffect(() => {
-    if (location.pathname === "/home") {
+    if (location.pathname === "/landing-page") {
       document.body.classList.add("home-page");
       document.body.classList.remove("login-page");
       document.body.classList.remove("documents-page");
@@ -41,9 +41,9 @@ export default function Router() {
     }
   }, [location]);
   const isLoginPage = location.pathname === "/login";
-  const isDocsPage = location.pathname === "/documents";
+  const isDocsPage = location.pathname === "/finished-projects";
   const isOtherPage =
-    location.pathname !== "/login" && location.pathname !== "/home";
+    location.pathname !== "/login" && location.pathname !== "/landing-page";
   return (
     <div className="container">
       <div
@@ -53,7 +53,7 @@ export default function Router() {
       >
         <Routes>
           <Route
-            path="/home"
+            path="/landing-page"
             element={
               <PublicRoute isLoggedIn={isLoggedIn}>
                 <Home />
@@ -80,19 +80,19 @@ export default function Router() {
           />
           {isLoggedIn && <Route path="/chat" element={<Chat />} />}
           <Route
-            path="/documents"
+            path="/finished-projects"
             element={
               <PrivateRoute isLoggedIn={isLoggedIn}>
                 <Documents />
               </PrivateRoute>
             }
           />
-          {isLoggedIn && <Route path="/onboarding" element={<Onboarding />} />}
+          {isLoggedIn && <Route path="/faq" element={<Onboarding />} />}
 
           <Route
             path="*"
             element={
-              <Navigate to={isLoggedIn ? "/welcome" : "/home"} replace />
+              <Navigate to={isLoggedIn ? "/welcome" : "/landing-page"} replace />
             }
           />
         </Routes>

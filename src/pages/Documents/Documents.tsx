@@ -78,7 +78,7 @@ export default function Documents() {
   };
 
   const handleOnboarding = async (projectId: number, projectName: string) => {
-    navigate("/onboarding", {
+    navigate("/faq", {
       state: { selectedProject: { id: projectId, name: projectName } },
     });
   };

@@ -14,7 +14,6 @@ import { FetchUserProjects } from "../../services/fetchUserProjectsUnd";
 import { useNavigate } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 import { RiProgress5Line } from "react-icons/ri";
-import { IoCloseCircle } from "react-icons/io5";
 import { EventSourceService } from "../../services/eventSourceService";
 
 interface SideBarHeaderProps {
@@ -35,12 +34,6 @@ interface Project {
   steps: { [key: number]: Step };
   wayPoint: string;
   icone: React.ElementType;
-}
-
-interface User {
-  id: number;
-  name: string;
-  projects: { [key: number]: Project };
 }
 
 export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
@@ -207,7 +200,7 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
               New Project
             </div>
           </div>
-          <Link to="/documents">
+          <Link to="/finished-projects">
             <div className="sidebarheader-quickacess-new-project-container">
               <IoDocumentTextOutline
                 className="sidebarheader-quickacess-new-project-icon"
