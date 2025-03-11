@@ -1,7 +1,7 @@
 import api from "./api";
 
 export const sendMessageToBackendOnboarding = async (
-  projectId: string | number, // Permite string ou número
+  projectId: string | number,
   userInput: string
 ): Promise<string> => {
   console.log("projectId", projectId);

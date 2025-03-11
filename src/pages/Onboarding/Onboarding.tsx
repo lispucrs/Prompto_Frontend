@@ -28,12 +28,11 @@ export default function Onboarding() {
     setCurrentMessage(prompt);
   };
 
-  // Estados relacionados ao chat
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentMessage, setCurrentMessage] = useState("");
   const [haveText, setHaveText] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
-  const navigate = useNavigate(); // Instância do hook
+  const navigate = useNavigate();
 
   const handleProjectSelect = (projectId: number) => {
     navigate("/chat", {

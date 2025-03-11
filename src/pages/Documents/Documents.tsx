@@ -6,7 +6,7 @@ import { CiGrid41 } from "react-icons/ci";
 import { GrHp } from "react-icons/gr";
 import { BsFillChatTextFill, BsThreeDots } from "react-icons/bs";
 import { GoDownload, GoTrash } from "react-icons/go";
-import { FetchUserCompleteProjects } from "../../services/fetchUserProjectsDone"; // Importa a classe
+import { FetchUserCompleteProjects } from "../../services/fetchUserProjectsDone";
 import { useEffect, useState } from "react";
 import { FaCloud, FaRobot } from "react-icons/fa";
 import { IoHardwareChipOutline } from "react-icons/io5";
@@ -61,15 +61,13 @@ export default function Documents() {
     try {
       const pdfBlob = await DownloadPDF.downloadPDF(projectId);
 
-      // Cria uma URL temporária para o blob
       const url = window.URL.createObjectURL(pdfBlob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `project_${projectId}.pdf`; // nome do arquivo
+      link.download = `project_${projectId}.pdf`;
       document.body.appendChild(link);
       link.click();
 
-      // Limpa o link temporário
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {

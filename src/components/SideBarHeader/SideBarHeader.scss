@@ -146,7 +146,6 @@
     gap: 10px;
 
     .sidebar-project-options {
-      //border-bottom: 2px solid white;
       overflow: hidden;
       max-height: 0;
       opacity: 0;
@@ -175,7 +174,6 @@
       color: #ffffff;
       transition: 0.3s ease;
       font-size: 15px;
-      //border-radius: 8px;
       width: 70%;
       padding: 0 12px;
       cursor: pointer;
@@ -195,7 +193,6 @@
       padding: 0.5rem 1rem;
       background-color: transparent;
       border-radius: 5px;
-      //cursor: pointer;
       transition: color 0.3s ease;
       font-size: 15px;
 
@@ -205,8 +202,6 @@
 
       &.disabled {
         color: #b5b5b5;
-        //cursor: not-allowed;
-        //pointer-events: none;
       }
 
       &.disabled:hover {
@@ -220,9 +215,6 @@
       &.incomplete {
         padding-left: 15px;
         color: #6fc9f9;
-        // &:hover {
-        //   color: #6fc9f9;
-        // }
       }
     }
 
@@ -254,9 +246,6 @@
 
     .sidebarheader-projects-new-project-containerSelected {
       &.selected {
-        // border-top: 2px solid #a9a9a9;
-        // border-bottom: 2px solid #a9a9a9;
-        // border: 2px solid #ffffff;
 
         border-radius: 8px;
         transition: border-color 0.3s ease;
@@ -265,7 +254,6 @@
 
         .sidebarheader-projects-new-project-container {
           color: #90d8ff;
-          // text-decoration: underline;
         }
       }
     }

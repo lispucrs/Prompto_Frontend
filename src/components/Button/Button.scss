@@ -31,7 +31,7 @@
 
   &.secondary {
     background-color: white;
-    color: themes.$background; // Acessando a variável na namespace
+    color: themes.$background;
     border-radius: 40px;
     font-size: 22px;
     display: flex;

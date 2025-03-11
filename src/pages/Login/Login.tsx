@@ -26,21 +26,17 @@ export default function Login() {
       const userId = await login(email, password);
 
       if (userId != "") {
-        // Armazena o estado de login e o ID do usuário no localStorage
         localStorage.setItem("loggedIn", "true");
         localStorage.setItem("userId", userId);
         localStorage.setItem("email", email);
 
-        // Redireciona para a página de boas-vindas
         navigate("/welcome");
       } else {
-        // Se o ID for vazio, as credenciais estão incorretas
       }
     } catch (error) {
       setError(
         "Invalid email or password."
 
-        // error.message || "Erro ao verificar credenciais. Tente novamente."
       );
 
       setShake(true);

@@ -31,12 +31,11 @@ export default function Chat() {
     setCurrentMessage(prompt);
   };
 
-  // Estados relacionados ao chat
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentMessage, setCurrentMessage] = useState("");
   const [haveText, setHaveText] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
-  const [stoppedStep, setStoppedStep] = useState<number | null>(null); // Estado para o idStopedStep
+  const [stoppedStep, setStoppedStep] = useState<number | null>(null);
 
   const handleProjectSelect = ({
     projectId,
@@ -45,9 +44,9 @@ export default function Chat() {
     projectId: number;
     idStopedStep: number;
   }) => {
-    setMessages([]); // Reinicia as mensagens ao selecionar um novo projeto
+    setMessages([]);
     setHaveText(false);
-    setStoppedStep(idStopedStep); // Salva o idStopedStep no estado, se necessário
+    setStoppedStep(idStopedStep);
   };
   const bottomRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {

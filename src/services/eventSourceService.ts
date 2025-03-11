@@ -5,9 +5,7 @@ export class EventSourceService {
     
         eventSource.onmessage = (event) => {
           console.log("Mensagem recebida via SSE:", event.data);
-          //window.location.reload();
-          onMessage(event.data); // Passa a mensagem recebida para o callback
-          //reload page
+          onMessage(event.data);
             
         };
     

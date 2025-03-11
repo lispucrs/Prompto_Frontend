@@ -123,7 +123,6 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
       }
     };
 
-    // Conecta ao SSE para receber mensagens
     const eventSource = EventSourceService.listenForUpdates(
       (message) => {
         console.log("Mensagem recebida via SSE:", message);
@@ -137,11 +136,10 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
         }
       },
       () => {
-        console.error("Erro na conexão SSE."); // Imprime erro no console se a conexão falhar
+        console.error("Erro na conexão SSE.");
       }
     );
 
-    // Limpa o EventSource ao desmontar o componente
     return () => {
       eventSource.close();
     };
@@ -256,12 +254,6 @@ export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
                               ? "incomplete"
                               : "complete"
                           }`}
-                          // style={{
-                          //   cursor:
-                          //     index + 1 >= project.idStopedStep
-                          //       ? "pointer"
-                          //       : "default",
-                          // }}
                         >
                           <FaCheckCircle size={15} />
                           {stepName || `Step ${index}`}
