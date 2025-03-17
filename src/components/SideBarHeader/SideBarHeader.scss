@@ -21,7 +21,7 @@
   }
 
   .sidebarheader-line-logo-hide {
-    height: 10%;
+    min-height: 10%;
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -44,7 +44,7 @@
     border-radius: 15px;
     width: 260px;
     border: 1px solid rgba(245, 245, 245, 0.212);
-    height: 41px;
+    min-height: 41px;
     margin-bottom: 45px;
 
     .sidebarheader-search {
@@ -92,18 +92,17 @@
     font-style: normal;
     color: #ffffff;
     border-bottom: 1px solid white;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 
     .sidebarheader-quickacess-title {
       font-size: 20px;
-
     }
     .sidebarheader-quickacess-new-project-container {
       display: flex;
       align-items: center;
       gap: 10px;
       transition: color 0.3s ease-out;
-    margin-bottom: 20px;
+      margin-bottom: 20px;
 
       font-family: "Montserrat";
       font-style: normal;
@@ -113,6 +112,9 @@
       color: #ffffff;
 
       &:hover {
+        color: #6fc9f9;
+      }
+      &.selected {
         color: #6fc9f9;
       }
       .sidebarheader-quickacess-new-project-icon {
@@ -130,7 +132,6 @@
     padding-bottom: 15px;
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
-
   }
 
   .sidebarheader-projects-container {
@@ -143,9 +144,8 @@
     max-height: 400px;
     overflow-y: auto;
     gap: 10px;
-    
+
     .sidebar-project-options {
-      //border-bottom: 2px solid white;
       overflow: hidden;
       max-height: 0;
       opacity: 0;
@@ -174,7 +174,6 @@
       color: #ffffff;
       transition: 0.3s ease;
       font-size: 15px;
-      //border-radius: 8px;
       width: 70%;
       padding: 0 12px;
       cursor: pointer;
@@ -187,11 +186,15 @@
     }
 
     .sidebar-project-option {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 5px;
       padding: 0.5rem 1rem;
       background-color: transparent;
       border-radius: 5px;
-      cursor: pointer;
       transition: color 0.3s ease;
+      font-size: 15px;
 
       &:hover {
         color: #6fc9f9;
@@ -199,8 +202,6 @@
 
       &.disabled {
         color: #b5b5b5;
-        cursor: not-allowed;
-        pointer-events: none;
       }
 
       &.disabled:hover {
@@ -208,15 +209,12 @@
       }
 
       &.complete {
-        color: rgb(123, 123, 123);
+        color: rgb(172, 172, 172);
       }
 
       &.incomplete {
-        color: #ffffff;
-
-        &:hover {
-          color: #6fc9f9;
-        }
+        padding-left: 15px;
+        color: #6fc9f9;
       }
     }
 
@@ -237,6 +235,7 @@
 
       .sidebarheader-projects-new-project-icon {
         cursor: pointer;
+        min-width: 25px;
       }
 
       .sidebarheader-projects-new-project-text {
@@ -247,9 +246,6 @@
 
     .sidebarheader-projects-new-project-containerSelected {
       &.selected {
-        // border-top: 2px solid #a9a9a9;
-        // border-bottom: 2px solid #a9a9a9;
-        // border: 2px solid #ffffff;
 
         border-radius: 8px;
         transition: border-color 0.3s ease;
@@ -258,7 +254,6 @@
 
         .sidebarheader-projects-new-project-container {
           color: #90d8ff;
-          // text-decoration: underline;
         }
       }
     }
@@ -273,5 +268,6 @@
   .logosidebar {
     margin-top: auto;
     margin-bottom: 20px;
+    padding-top: 30px;
   }
 }

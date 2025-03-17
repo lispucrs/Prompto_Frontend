@@ -6,7 +6,6 @@ export const changeInstruction = async (instructionKey: number): Promise<void> =
       instruction_key: instructionKey,
     });
     if (!response.status) throw new Error("Erro ao alterar a instrução do sistema.");
-    console.log("Instrução alterada com sucesso!");
   } catch (error) {
     console.error("Erro ao alterar a instrução:", error);
     throw new Error("Erro ao alterar a instrução.");

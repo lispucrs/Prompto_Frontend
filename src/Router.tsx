@@ -6,16 +6,27 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import Documents from "./pages/Documents/Documents";
 import Chat from "./pages/Chat/Chat";
 import Welcome from "./pages/Welcome/Welcome";
+import Onboarding from "./pages/Onboarding/Onboarding";
 export default function Router() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem("loggedIn");
+  function PrivateRoute({ children, isLoggedIn }) {
+    return isLoggedIn ? children : <Navigate to="/login" replace />;
+  }
 
+  function PublicRoute({ children, isLoggedIn }) {
+    return isLoggedIn ? <Navigate to="/welcome" replace /> : children;
+  }
+ 
   useEffect(() => {
-    if (location.pathname === "/home") {
+    if (location.pathname === "/landing-page") {
       document.body.classList.add("home-page");
       document.body.classList.remove("login-page");
       document.body.classList.remove("documents-page");
@@ -30,9 +41,9 @@ export default function Router() {
     }
   }, [location]);
   const isLoginPage = location.pathname === "/login";
-  const isDocsPage = location.pathname === "/documents";
+  const isDocsPage = location.pathname === "/finished-projects";
   const isOtherPage =
-    location.pathname !== "/login" && location.pathname !== "/home";
+    location.pathname !== "/login" && location.pathname !== "/landing-page";
   return (
     <div className="container">
       <div
@@ -41,14 +52,49 @@ export default function Router() {
         }`}
       >
         <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/documents" element={<Documents />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/welcome" element={<Welcome />} />
+          <Route
+            path="/landing-page"
+            element={
+              <PublicRoute isLoggedIn={isLoggedIn}>
+                <Home />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute isLoggedIn={isLoggedIn}>
+                <Login />
+              </PublicRoute>
+            }
+          />
 
+          {/* Private Routes */}
+          <Route
+            path="/welcome"
+            element={
+              <PrivateRoute isLoggedIn={isLoggedIn}>
+                <Welcome />
+              </PrivateRoute>
+            }
+          />
+          {isLoggedIn && <Route path="/chat" element={<Chat />} />}
+          <Route
+            path="/finished-projects"
+            element={
+              <PrivateRoute isLoggedIn={isLoggedIn}>
+                <Documents />
+              </PrivateRoute>
+            }
+          />
+          {isLoggedIn && <Route path="/faq" element={<Onboarding />} />}
 
-          <Route path="/*" element={<Navigate to="/home" replace />} />
+          <Route
+            path="*"
+            element={
+              <Navigate to={isLoggedIn ? "/welcome" : "/landing-page"} replace />
+            }
+          />
         </Routes>
       </div>
     </div>

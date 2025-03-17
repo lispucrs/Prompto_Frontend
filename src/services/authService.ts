@@ -6,10 +6,7 @@ export const login = async (
 ): Promise<string> => {
   try {
     const response = await api.post("/auth/login", { email, password });
-    console.log(response);
 
-    console.log(response.data.user.id);
-    console.log(response.status);
     if (response.status === 200 && response.data.user.id) {
       return response.data.user.id;
     } else {

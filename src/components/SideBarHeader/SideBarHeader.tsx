@@ -1,27 +1,27 @@
-//import { IconButton, InputAdornment, TextField } from "@mui/material";
 import "./SideBarHeader.scss";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-// import { AiOutlineFileAdd } from "react-icons/ai";
 import { useEffect, useState } from "react";
-// import Modal from "../Modal/Modal";
-// import { LuClipboardList } from "react-icons/lu";
-// import { RiTeamLine } from "react-icons/ri";
 import Logo from "../Logo/Logo";
 import { FaRobot } from "react-icons/fa";
 import { IoHardwareChipOutline } from "react-icons/io5";
-import { FaCloud } from "react-icons/fa";
-import { GrHp } from "react-icons/gr";
-// import { SiHp } from "react-icons/si";
-// import { FaPython } from "react-icons/fa";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-// interface SideBarHeaderProps {
-//   onInstructionChange: (instruction: number) => void;
-// }
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { FetchUserProjects } from "../../services/fetchUserProjectsUnd";
+import { useNavigate } from "react-router-dom";
+import { FaCheckCircle } from "react-icons/fa";
+import { RiProgress5Line } from "react-icons/ri";
+import { EventSourceService } from "../../services/eventSourceService";
 
+interface SideBarHeaderProps {
+  onProjectSelect: (projectData: {
+    projectId: number;
+    idStopedStep: number;
+  }) => void;
+}
 interface Step {
   idStep: number;
   nameStep: string;
@@ -36,19 +36,34 @@ interface Project {
   icone: React.ElementType;
 }
 
-interface User {
-  id: number;
-  name: string;
-  projects: { [key: number]: Project };
-}
-
-export default function SideBarHeader() {
+export default function SideBarHeader({ onProjectSelect }: SideBarHeaderProps) {
+  const steps = [
+    { id: 0, name: "Creation Project" },
+    { id: 1, name: "Gather Requirements" },
+    { id: 2, name: "Assemble Team" },
+    { id: 3, name: "RoadMap" },
+    { id: 4, name: "User Stories" },
+  ];
+  const navigate = useNavigate();
   const [projectsUndone, setProjectsUndone] = useState<any[]>([]);
   const userId = Number(localStorage.getItem("userId"));
-  const idteste = 2;
-  console.log("idteste");
+  const handleNewProject = async () => {
+    try {
+      setExpandedProject(null);
+      setSelectedProject(null);
+      navigate("/chat", {
+        state: { selectedProject: { name: "New Project", id: -1 } },
+      });
+    } catch (error) {
+      console.error("Erro ao criar o novo projeto:", error);
+      alert("Erro ao criar o novo projeto. Tente novamente.");
+    }
+  };
+  const [searchTerm, setSearchTerm] = useState("");
 
-  console.log(idteste);
+  const filteredProjects = projectsUndone.filter((project) =>
+    project.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -68,11 +83,10 @@ export default function SideBarHeader() {
               ? FaRobot
               : project.icon === "IoHardwareChipOutline"
               ? IoHardwareChipOutline
-              : FaRobot, 
+              : FaRobot,
         }));
 
         setProjectsUndone(formattedProjects);
-        console.log(formattedProjects);
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
@@ -80,6 +94,57 @@ export default function SideBarHeader() {
 
     fetchProjects();
   }, [userId]);
+
+  useEffect(() => {
+    const fetchProjectsAgain = async () => {
+      try {
+        const data = await FetchUserProjects.getProjects(userId);
+
+        const formattedProjects = data.map((project: any) => ({
+          ...project,
+          id: project.project_id,
+          steps: project.done_steps.map((step: any, index: number) => ({
+            idStep: index + 1,
+            nameStep: `Step ${index + 1}`,
+            info: step[Object.keys(step)[0]] || "No info",
+          })),
+          idStopedStep: project.next_step,
+          icone:
+            project.icon === "FaRobot"
+              ? FaRobot
+              : project.icon === "IoHardwareChipOutline"
+              ? IoHardwareChipOutline
+              : FaRobot,
+        }));
+
+        setProjectsUndone(formattedProjects);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
+
+    const eventSource = EventSourceService.listenForUpdates(
+      (message) => {
+        console.log("Mensagem recebida via SSE:", message);
+        fetchProjectsAgain();
+        console.log("MESSI", message);
+        if (message.includes("project_updated_created")) {
+          toast.success(
+            "Your project has been created. You can check it in the Sidebar."
+          );
+          navigate("/welcome");
+        }
+      },
+      () => {
+        console.error("Erro na conexão SSE.");
+      }
+    );
+
+    return () => {
+      eventSource.close();
+    };
+  }, [navigate, userId]);
+
   const location = useLocation();
   const { selectedProject: initialSelectedProject } = location.state || {};
 
@@ -88,140 +153,18 @@ export default function SideBarHeader() {
     initialSelectedProject || null
   );
 
-  const projects: Project[] = [
-    {
-      id: 1,
-      name: "Delfos",
-      idStopedStep: 2,
-      steps: {
-        1: {
-          idStep: 1,
-          nameStep: "Project Overview",
-          info: "Início do projeto",
-        },
-        2: {
-          idStep: 2,
-          nameStep: "Assemble Team",
-          info: "Planejamento concluído",
-        },
-      },
-      wayPoint: "/wayPoint/delfos",
-      icone: FaRobot,
-    },
-    {
-      id: 2,
-      name: "Nautilus",
-      idStopedStep: 2,
-      steps: {
-        1: {
-          idStep: 1,
-          nameStep: "Project Overview",
-          info: "Início do projeto",
-        },
-        2: {
-          idStep: 2,
-          nameStep: "Assemble Team",
-          info: "Planejamento concluído",
-        },
-      },
-      wayPoint: "/wayPoint/nautilus",
-      icone: IoHardwareChipOutline,
-    },
-    {
-      id: 3,
-      name: "Impettus",
-      idStopedStep: 3,
-      steps: {
-        1: {
-          idStep: 1,
-          nameStep: "Project Overview",
-          info: "Proposta inicial",
-        },
-        2: {
-          idStep: 2,
-          nameStep: "Assemble Team",
-          info: "Planejamento estratégico",
-        },
-        3: {
-          idStep: 3,
-          nameStep: "Define Requirements",
-          info: "Execução fase 1",
-        },
-        4: {
-          idStep: 4,
-          nameStep: "RoadMap",
-          info: "Execução fase 1",
-        },
-        5: {
-          idStep: 5,
-          nameStep: "User Stories",
-          info: "Execução fase 1",
-        },
-      },
-      wayPoint: "/wayPoint/impettus",
-      icone: FaCloud,
-    },
-    {
-      id: 4,
-      name: "Lottus",
-      idStopedStep: 2,
-      steps: {
-        1: {
-          idStep: 1,
-          nameStep: "Project Overview",
-          info: "Kick-off",
-        },
-        2: {
-          idStep: 2,
-          nameStep: "Assemble Team",
-          info: "Definição de escopo",
-        },
-      },
-      wayPoint: "/wayPoint/lottus",
-      icone: GrHp,
-    },
-    {
-      id: 5,
-      name: "Grac",
-      idStopedStep: 2,
-      steps: {
-        1: {
-          idStep: 1,
-          nameStep: "Project Overview",
-          info: "Kick-off",
-        },
-        2: {
-          idStep: 2,
-          nameStep: "Assemble Team",
-          info: "Definição de escopo",
-        },
-      },
-      wayPoint: "/wayPoint/grac",
-      icone: GrHp,
-    },
-    {
-      id: 6,
-      name: "Jam",
-      idStopedStep: 2,
-      steps: {
-        1: {
-          idStep: 1,
-          nameStep: "Project Overview",
-          info: "Kick-off",
-        },
-        2: {
-          idStep: 2,
-          nameStep: "Assemble Team",
-          info: "Definição de escopo",
-        },
-      },
-      wayPoint: "/wayPoint/jam",
-      icone: GrHp,
-    },
-  ];
-  const toggleProject = (projectName: string) => {
+  const toggleProject = (
+    projectName: string,
+    projectId: number,
+    idStopedStep: number
+  ) => {
     setExpandedProject((prev) => (prev === projectName ? null : projectName));
     setSelectedProject((prev) => (prev === projectName ? null : projectName));
+    onProjectSelect({ projectId, idStopedStep });
+
+    navigate("/chat", {
+      state: { selectedProject: { name: projectName, id: projectId } },
+    });
   };
 
   return (
@@ -237,15 +180,15 @@ export default function SideBarHeader() {
             id="inputField"
             placeholder="Search Project"
             className="sidebarheader-search"
-            onKeyDown={(e) => e.key === "Enter"}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <FaMagnifyingGlass className="sidebarheader-glass" size={19} />
         </div>
         <div className="sidebarheader-quickaccess-container">
-          {/* <div className="sidebarheader-quickacess-title">Quick Access:</div> */}
           <div
             className="sidebarheader-quickacess-new-project-container"
-            // onClick={() => changeInstruction(1)}
+            onClick={handleNewProject}
           >
             <AiOutlineFileAdd
               className="sidebarheader-quickacess-new-project-icon"
@@ -254,32 +197,22 @@ export default function SideBarHeader() {
             <div className="sidebarheader-quickacess-new-project-text">
               New Project
             </div>
-            {/* <button onClick={toggleModal}>
-              {modalOpen ? "Close Modal" : "Open Modal"}
-            </button> */}
           </div>
-          <Link to="/documents">
-            <div
-              className="sidebarheader-quickacess-new-project-container"
-              // onClick={() => changeInstruction(1)}
-            >
+          <Link to="/finished-projects">
+            <div className="sidebarheader-quickacess-new-project-container">
               <IoDocumentTextOutline
                 className="sidebarheader-quickacess-new-project-icon"
                 size={25}
               />
               <div className="sidebarheader-quickacess-new-project-text">
-                Documents
+                Finished Projects
               </div>
-              {/* <button onClick={toggleModal}>
-              {modalOpen ? "Close Modal" : "Open Modal"}
-            </button> */}
             </div>
           </Link>
         </div>
 
-        {/* <div className="sidebarheader-projects-title">Projects:</div> */}
         <div className="sidebarheader-projects-container">
-          {projectsUndone.map((project) => (
+          {filteredProjects.map((project) => (
             <div
               className={`sidebarheader-projects-new-project-containerSelected ${
                 selectedProject === project.name ? "selected" : ""
@@ -290,7 +223,9 @@ export default function SideBarHeader() {
                 className={`sidebarheader-projects-new-project-container ${
                   selectedProject === project.name ? "selected" : ""
                 }`}
-                onClick={() => toggleProject(project.name)}
+                onClick={() =>
+                  toggleProject(project.name, project.id, project.idStopedStep)
+                }
               >
                 <project.icone
                   className="sidebarheader-projects-new-project-icon"
@@ -308,25 +243,31 @@ export default function SideBarHeader() {
               >
                 {expandedProject === project.name && (
                   <>
-                    {project.done_steps.map((step: any, index: number) => (
-                      <div
-                        key={index} // Pode usar o índice ou um identificador único
-                        className={`sidebar-project-option ${
-                          step.idStep >= project.idStopedStep
-                            ? "incomplete"
-                            : "complete"
-                        }`}
-                        style={{
-                          cursor:
-                            step.idStep >= project.idStopedStep
-                              ? "pointer"
-                              : "default",
-                        }}
-                      >
-                        {step.stepName || `Step ${index + 1}`}{" "}
-                        {/* Ajusta o nome do step */}
+                    {project.done_steps.map((step: any, index: number) => {
+                      const stepName = Object.keys(step)[0];
+
+                      return (
+                        <div
+                          key={index}
+                          className={`sidebar-project-option ${
+                            index >= project.idStopedStep
+                              ? "incomplete"
+                              : "complete"
+                          }`}
+                        >
+                          <FaCheckCircle size={15} />
+                          {stepName || `Step ${index}`}
+                        </div>
+                      );
+                    })}
+                    {project.idStopedStep && (
+                      <div className="sidebar-project-option incomplete">
+                        <RiProgress5Line size={18} />
+
+                        {steps.find((s) => s.id === project.idStopedStep)
+                          ?.name || "Step Name Not Found"}
                       </div>
-                    ))}
+                    )}
                   </>
                 )}
               </div>

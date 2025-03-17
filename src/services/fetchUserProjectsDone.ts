@@ -9,7 +9,6 @@ export class FetchUserCompleteProjects {
         throw new Error("Erro ao buscar os projetos completos do usuário.");
       }
 
-      console.log("Projetos completos obtidos com sucesso:", response.data);
 
       return response.data;
     } catch (error: any) {

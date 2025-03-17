@@ -1,15 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Home.scss";
 import Button from "../../components/Button/Button";
-import chatImage from "../../assets/chatImage.svg";
-import chatImageRotated from "../../assets/Group 66.svg";
+import chatImage from "../../assets/pcwithimage.svg";
+import chatImageRotated from "../../assets/Group 72.svg";
 import Logo from "../../components/Logo/Logo";
 import { FaArrowUp } from "react-icons/fa";
 import React, { useState, useEffect } from "react";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [showScrollTopButton, setShowScrollTopButton] = useState(false);
-
+ 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
@@ -93,7 +94,7 @@ export default function Home() {
           <div className="home-initiation-stages-first">
             Prompto offers a comprehensive project management process divided
             into several key stages to guide users from project initiation to
-            team assembly. These stages include:
+            user stories. These stages include:
           </div>
           <div className="home-initiation-stages-second">
             <ol className="custom-list">
@@ -116,6 +117,19 @@ export default function Home() {
                 project team, outlining the roles and tasks each member will be
                 responsible for, based on the requirements established in the
                 previous phase.
+              </li>
+              <li>
+                4. Roadmap The roadmap serves as a strategic guide that outlines
+                the project's timeline, phases, objectives, milestones,
+                deliverables, and team responsibilities. It helps ensure that
+                the team and stakeholders have a clear understanding of the
+                project's direction and progression.
+              </li>
+              <li>
+                5. User Stories User stories translate the project's
+                requirements into actionable, user-centered tasks. They are
+                essential for guiding development and ensuring the final product
+                meets user needs.
               </li>
             </ol>
           </div>

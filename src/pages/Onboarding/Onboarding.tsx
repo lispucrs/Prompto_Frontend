@@ -1,26 +1,23 @@
-import SideBarHeader from "../../components/SideBarHeader/SideBarHeader";
+import { useEffect, useRef, useState } from "react";
 import Profile from "../../components/Profile/Profile";
-import "./Chat.scss";
+import SideBarHeader from "../../components/SideBarHeader/SideBarHeader";
+import { sendMessageToBackendOnboarding } from "../../services/onboardingService";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowUp, FaRobot } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { sendMessageToBackend } from "../../services/chatService";
-import { useCallback } from "react";
-import { EventSourceService } from "../../services/eventSourceService";
-
 type Message = {
   text: string;
   sender: "user" | "bot" | "bot-loading";
 };
 
-export default function Chat() {
+export default function Onboarding() {
   const location = useLocation();
   const { selectedProject } = location.state || {};
   const projectId = selectedProject?.id || null;
-
+  const projectName = selectedProject?.name || "No Project Selected";
+  console.log("selectedProject", selectedProject);
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -35,18 +32,12 @@ export default function Chat() {
   const [currentMessage, setCurrentMessage] = useState("");
   const [haveText, setHaveText] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
-  const [stoppedStep, setStoppedStep] = useState<number | null>(null);
+  const navigate = useNavigate();
 
-  const handleProjectSelect = ({
-    projectId,
-    idStopedStep,
-  }: {
-    projectId: number;
-    idStopedStep: number;
-  }) => {
-    setMessages([]);
-    setHaveText(false);
-    setStoppedStep(idStopedStep);
+  const handleProjectSelect = (projectId: number) => {
+    navigate("/chat", {
+      state: { selectedProject: { id: projectId } },
+    });
   };
   const bottomRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
@@ -70,7 +61,10 @@ export default function Chat() {
     );
 
     try {
-      const botResponse = await sendMessageToBackend(projectId, currentMessage);
+      const botResponse = await sendMessageToBackendOnboarding(
+        projectId,
+        currentMessage
+      );
       setMessages((prev) =>
         prev
           .filter((msg) => msg.sender !== "bot-loading")
@@ -81,7 +75,7 @@ export default function Chat() {
         prev
           .filter((msg) => msg.sender !== "bot-loading")
           .concat({
-            text: "Failed to get a response from the assistant. Try resending the message. ",
+            text: "Failed to get a response from the assistant.",
             sender: "bot",
           })
       );
@@ -95,22 +89,15 @@ export default function Chat() {
   }, [messages]);
 
   const promptsLeft = [
-    "Create a new project!",
-    "How can I distribute tasks to my team?",
-    "Create user stories to base my new project!",
+    "What is the objective of the project?",
+    "What are the key deliverables of this project?",
+    "What milestones should I consider for my project?",
   ];
   const promptsRight = [
-    "Define the requirements for my project.",
-    "Generate RoadMap for my project",
-    "Make some user stories for my project!",
+    "How many people are required for this project?",
+    "Explain the roadmap of the project.",
+    "Whats the Onboarding of the project?",
   ];
-
-  useEffect(() => {
-    if (selectedProject?.id === -1) {
-      setStoppedStep(0);
-      setMessages([]);
-    }
-  }, [stoppedStep, selectedProject?.id]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCurrentMessage(e.target.value);
@@ -120,7 +107,7 @@ export default function Chat() {
     <>
       <SideBarHeader onProjectSelect={handleProjectSelect} />
       <div className="chat-container">
-        <div className="chat-title">{selectedProject?.name || "None"}</div>
+        <div className="chat-title">{projectName || "None"}</div>
 
         {!haveText && (
           <>

@@ -34,11 +34,21 @@
   border-radius: 4px;
   cursor: pointer;
 }
-
+.chat-refreshbutton {
+  position: absolute;
+  bottom: 21px;
+  left: 335px;
+  color: #03256c;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  &:hover {
+    color: #647aaa;
+  }
+}
 .chat-container {
   display: flex;
   flex-direction: column;
-  padding: 0px 20px 20px 20px;
+  padding: 0px 40px 13px 20px;
   width: 100%;
   height: 85vh;
   font-family: "Poppins";
@@ -47,14 +57,14 @@
   position: relative;
 
   .chat-title {
-    align-self: flex-start;
+    align-self: center;
     font-weight: 700;
     font-size: 60px;
     color: #03256c;
-    line-height: 1; /* Remove espaço vertical extra */
-    margin: 0; /* Remove margens padrão */
-    padding: 0; /* Remove qualquer padding extra */
-    margin-bottom: 10px;
+    line-height: 1; 
+    margin: 0; 
+    padding: 0; 
+    margin-bottom: 15px;
   }
   .ready-prompts-title {
     padding-top: 150px;
@@ -62,6 +72,7 @@
     font-size: 18px;
     color: #03256c;
     align-self: center;
+    text-align: center;
   }
   .chat-prompts-container {
     margin-top: 10px;
@@ -77,6 +88,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding-top: 30px;
 
       ul {
         list-style: none;
