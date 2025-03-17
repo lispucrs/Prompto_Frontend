@@ -69,7 +69,7 @@ export default function Router() {
             }
           />
 
-          {/* Rotas privadas */}
+          {/* Private Routes */}
           <Route
             path="/welcome"
             element={
